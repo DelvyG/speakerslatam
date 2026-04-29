@@ -14,8 +14,10 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Actions;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Database\Eloquent\Model;
 
 class SpeakerResource extends Resource
 {
@@ -26,6 +28,21 @@ class SpeakerResource extends Resource
     protected static ?string $pluralModelLabel = 'Conferencistas';
 
     protected static ?int $navigationSort = 1;
+
+    protected static ?string $recordTitleAttribute = 'first_name';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['first_name', 'last_name', 'city', 'country', 'bio_short'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Ciudad' => $record->city . ', ' . $record->country,
+            'Estado' => $record->status->getLabel(),
+        ];
+    }
 
     public static function getNavigationIcon(): string|\BackedEnum|null
     {
@@ -171,6 +188,11 @@ class SpeakerResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('photo')
+                    ->label('Foto')
+                    ->collection('photo')
+                    ->circular()
+                    ->size(40),
                 Tables\Columns\TextColumn::make('full_name')
                     ->label('Nombre')
                     ->searchable(['first_name', 'last_name'])
@@ -181,6 +203,13 @@ class SpeakerResource extends Resource
                 Tables\Columns\TextColumn::make('country')
                     ->label('Pais')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('experience_years')
+                    ->label('Experiencia')
+                    ->suffix(' anos')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('modality')
+                    ->label('Modalidad')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Estado')
                     ->badge(),
@@ -205,6 +234,17 @@ class SpeakerResource extends Resource
                 Tables\Filters\SelectFilter::make('country')
                     ->label('Pais')
                     ->options(fn () => Speaker::query()->distinct()->pluck('country', 'country')->toArray()),
+                Tables\Filters\SelectFilter::make('city')
+                    ->label('Ciudad')
+                    ->options(fn () => Speaker::query()->whereNotNull('city')->distinct()->pluck('city', 'city')->toArray()),
+                Tables\Filters\SelectFilter::make('modality')
+                    ->label('Modalidad')
+                    ->options(Modality::class),
+                Tables\Filters\SelectFilter::make('languages')
+                    ->label('Idioma')
+                    ->relationship('languages', 'name')
+                    ->multiple()
+                    ->preload(),
                 Tables\Filters\TernaryFilter::make('is_featured')
                     ->label('Destacado'),
                 Tables\Filters\TernaryFilter::make('is_verified')
@@ -214,6 +254,23 @@ class SpeakerResource extends Resource
                     ->relationship('categories', 'name')
                     ->multiple()
                     ->preload(),
+                Tables\Filters\Filter::make('experience_range')
+                    ->label('Rango de experiencia')
+                    ->form([
+                        Forms\Components\TextInput::make('experience_min')
+                            ->label('Minimo anos')
+                            ->numeric()
+                            ->minValue(0),
+                        Forms\Components\TextInput::make('experience_max')
+                            ->label('Maximo anos')
+                            ->numeric()
+                            ->minValue(0),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['experience_min'] ?? null, fn ($q, $min) => $q->where('experience_years', '>=', $min))
+                            ->when($data['experience_max'] ?? null, fn ($q, $max) => $q->where('experience_years', '<=', $max));
+                    }),
             ])
             ->actions([
                 Actions\EditAction::make(),
