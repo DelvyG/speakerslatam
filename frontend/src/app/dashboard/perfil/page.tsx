@@ -83,8 +83,9 @@ export default function EditProfilePage() {
     setValue,
     watch,
     formState: { errors, isSubmitting },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileSchema) as any,
   });
 
   const selectedCategoryIds = watch("category_ids") || [];
