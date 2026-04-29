@@ -2,7 +2,6 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -55,13 +54,7 @@ class EditProfile extends Page implements HasForms
                             ->required()
                             ->unique('users', 'email', ignorable: Auth::user()),
                     ])
-                    ->columns(2)
-                    ->footerActions([
-                        Action::make('updateProfile')
-                            ->label('Guardar cambios')
-                            ->icon('heroicon-o-check')
-                            ->submit('updateProfile'),
-                    ]),
+                    ->columns(2),
             ])
             ->statePath('profileData');
     }
@@ -91,13 +84,7 @@ class EditProfile extends Page implements HasForms
                             ->required()
                             ->same('new_password'),
                     ])
-                    ->columns(3)
-                    ->footerActions([
-                        Action::make('updatePassword')
-                            ->label('Actualizar contrasena')
-                            ->icon('heroicon-o-lock-closed')
-                            ->submit('updatePassword'),
-                    ]),
+                    ->columns(3),
             ])
             ->statePath('passwordData');
     }
