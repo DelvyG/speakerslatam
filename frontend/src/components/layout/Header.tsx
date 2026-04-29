@@ -76,10 +76,11 @@ export default function Header() {
         {/* Mobile hamburger */}
         <div className="md:hidden">
           <Sheet>
-            <SheetTrigger>
-              <Button variant="ghost" size="icon" aria-label="Menu">
-                <Menu className="size-5" />
-              </Button>
+            <SheetTrigger
+              className="inline-flex size-10 items-center justify-center rounded-md text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Menu"
+            >
+              <Menu className="size-5" />
             </SheetTrigger>
             <SheetContent side="right" className="w-72 p-0">
               <SheetHeader className="border-b px-4 py-4">
@@ -102,11 +103,12 @@ export default function Header() {
                     Iniciar Sesion
                   </span>
                 </SheetClose>
-                <SheetClose render={<Link href="/registro" />}>
-                  <Button className="mt-2 w-full bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
-                    Registrate
-                  </Button>
-                </SheetClose>
+                <Link
+                  href="/registro"
+                  className="mt-2 block w-full rounded-md bg-accent px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                >
+                  Registrate
+                </Link>
               </nav>
             </SheetContent>
           </Sheet>
