@@ -1,72 +1,70 @@
 <x-filament-panels::page>
-    <div class="space-y-6">
+    <div class="mx-auto max-w-4xl space-y-8">
 
         {{-- Datos Personales --}}
-        <x-filament::section>
-            <x-slot name="heading">Datos Personales</x-slot>
-            <x-slot name="description">Actualiza tu nombre y correo electronico.</x-slot>
+        <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-950 dark:text-white">Datos Personales</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Actualiza tu nombre y correo electronico.</p>
+            </div>
 
-            <form wire:submit="updateProfile" class="space-y-6">
-                <div class="py-2">
-                    {{ $this->profileForm }}
-                </div>
+            <form wire:submit="updateProfile">
+                {{ $this->profileForm }}
 
-                <div class="border-t border-gray-200 pt-6 dark:border-white/10">
-                    <div class="flex justify-end gap-3">
-                        <x-filament::button type="submit" icon="heroicon-o-check">
-                            Guardar cambios
-                        </x-filament::button>
-                    </div>
+                <div class="mt-8 flex justify-end">
+                    <x-filament::button type="submit" icon="heroicon-o-check">
+                        Guardar cambios
+                    </x-filament::button>
                 </div>
             </form>
-        </x-filament::section>
+        </div>
 
         {{-- Cambiar Contrasena --}}
-        <x-filament::section>
-            <x-slot name="heading">Cambiar Contrasena</x-slot>
-            <x-slot name="description">Asegurate de usar una contrasena segura de al menos 8 caracteres.</x-slot>
+        <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-950 dark:text-white">Cambiar Contrasena</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Asegurate de usar una contrasena segura de al menos 8 caracteres.</p>
+            </div>
 
-            <form wire:submit="updatePassword" class="space-y-6">
-                <div class="py-2">
-                    {{ $this->passwordForm }}
-                </div>
+            <form wire:submit="updatePassword">
+                {{ $this->passwordForm }}
 
-                <div class="border-t border-gray-200 pt-6 dark:border-white/10">
-                    <div class="flex justify-end gap-3">
-                        <x-filament::button type="submit" icon="heroicon-o-lock-closed">
-                            Actualizar contrasena
-                        </x-filament::button>
-                    </div>
+                <div class="mt-8 flex justify-end">
+                    <x-filament::button type="submit" icon="heroicon-o-lock-closed">
+                        Actualizar contrasena
+                    </x-filament::button>
                 </div>
             </form>
-        </x-filament::section>
+        </div>
 
         {{-- Info de la cuenta --}}
-        <x-filament::section>
-            <x-slot name="heading">Informacion de la cuenta</x-slot>
-            <x-slot name="description">Datos de tu cuenta en la plataforma.</x-slot>
+        <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10">
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-950 dark:text-white">Informacion de la cuenta</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Datos de tu cuenta en la plataforma.</p>
+            </div>
 
-            <div class="grid grid-cols-1 gap-6 py-2 sm:grid-cols-3">
-                <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div class="rounded-lg bg-gray-50 px-4 py-5 dark:bg-gray-800">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Rol</p>
                     <p class="mt-2 text-lg font-semibold text-gray-900 dark:text-white">
                         {{ auth()->user()->getRoleNames()->map(fn($r) => ucfirst($r))->implode(', ') ?: 'Sin rol' }}
                     </p>
                 </div>
-                <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                <div class="rounded-lg bg-gray-50 px-4 py-5 dark:bg-gray-800">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Miembro desde</p>
                     <p class="mt-2 text-lg font-semibold text-gray-900 dark:text-white">
-                        {{ auth()->user()->created_at->translatedFormat('d M Y') }}
+                        {{ auth()->user()->created_at->format('d/m/Y') }}
                     </p>
                 </div>
-                <div class="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                <div class="rounded-lg bg-gray-50 px-4 py-5 dark:bg-gray-800">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Email verificado</p>
-                    <p class="mt-2 text-lg font-semibold {{ auth()->user()->email_verified_at ? 'text-success-600' : 'text-danger-600' }}">
-                        {{ auth()->user()->email_verified_at ? auth()->user()->email_verified_at->translatedFormat('d M Y') : 'No verificado' }}
+                    <p class="mt-2 text-lg font-semibold {{ auth()->user()->email_verified_at ? 'text-green-600' : 'text-red-600' }}">
+                        {{ auth()->user()->email_verified_at ? auth()->user()->email_verified_at->format('d/m/Y') : 'No verificado' }}
                     </p>
                 </div>
             </div>
-        </x-filament::section>
+        </div>
 
     </div>
 </x-filament-panels::page>
