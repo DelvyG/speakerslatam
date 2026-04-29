@@ -40,17 +40,27 @@ class EditProfile extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nombre completo')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->label('Correo electronico')
-                    ->email()
-                    ->required()
-                    ->unique('users', 'email', ignorable: Auth::user()),
+                Forms\Components\Section::make('Datos Personales')
+                    ->description('Actualiza tu nombre y correo electronico.')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Nombre completo')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->label('Correo electronico')
+                            ->email()
+                            ->required()
+                            ->unique('users', 'email', ignorable: Auth::user()),
+                    ])
+                    ->columns(2)
+                    ->footerActions([
+                        Forms\Components\Actions\Action::make('updateProfile')
+                            ->label('Guardar cambios')
+                            ->icon('heroicon-o-check')
+                            ->submit('updateProfile'),
+                    ]),
             ])
-            ->columns(2)
             ->statePath('profileData');
     }
 
@@ -58,25 +68,35 @@ class EditProfile extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('current_password')
-                    ->label('Contrasena actual')
-                    ->password()
-                    ->revealable()
-                    ->required(),
-                Forms\Components\TextInput::make('new_password')
-                    ->label('Nueva contrasena')
-                    ->password()
-                    ->revealable()
-                    ->required()
-                    ->minLength(8),
-                Forms\Components\TextInput::make('new_password_confirmation')
-                    ->label('Confirmar nueva contrasena')
-                    ->password()
-                    ->revealable()
-                    ->required()
-                    ->same('new_password'),
+                Forms\Components\Section::make('Cambiar Contrasena')
+                    ->description('Asegurate de usar una contrasena segura de al menos 8 caracteres.')
+                    ->schema([
+                        Forms\Components\TextInput::make('current_password')
+                            ->label('Contrasena actual')
+                            ->password()
+                            ->revealable()
+                            ->required(),
+                        Forms\Components\TextInput::make('new_password')
+                            ->label('Nueva contrasena')
+                            ->password()
+                            ->revealable()
+                            ->required()
+                            ->minLength(8),
+                        Forms\Components\TextInput::make('new_password_confirmation')
+                            ->label('Confirmar nueva contrasena')
+                            ->password()
+                            ->revealable()
+                            ->required()
+                            ->same('new_password'),
+                    ])
+                    ->columns(3)
+                    ->footerActions([
+                        Forms\Components\Actions\Action::make('updatePassword')
+                            ->label('Actualizar contrasena')
+                            ->icon('heroicon-o-lock-closed')
+                            ->submit('updatePassword'),
+                    ]),
             ])
-            ->columns(3)
             ->statePath('passwordData');
     }
 
