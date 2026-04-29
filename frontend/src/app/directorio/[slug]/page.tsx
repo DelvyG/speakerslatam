@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   MapPin,
@@ -65,11 +64,10 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
       <section className="relative h-[400px] w-full overflow-hidden md:h-[500px]">
         <div className="absolute inset-0 bg-primary">
           {speaker.photo_url ? (
-            <Image
+            <img
               src={speaker.photo_url}
               alt={speaker.full_name}
-              fill
-              className="object-cover object-top opacity-60"
+              className="absolute inset-0 size-full object-cover object-top opacity-60"
               sizes="100vw"
               priority
             />
@@ -216,11 +214,10 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
                       key={i}
                       className="relative aspect-[4/3] overflow-hidden rounded-xl"
                     >
-                      <Image
+                      <img
                         src={url}
                         alt={`${speaker.full_name} - foto ${i + 1}`}
-                        fill
-                        className="object-cover transition-transform duration-300 hover:scale-105"
+                        className="absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-105"
                         sizes="(max-width: 640px) 50vw, 33vw"
                       />
                     </div>

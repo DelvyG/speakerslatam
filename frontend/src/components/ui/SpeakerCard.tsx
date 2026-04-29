@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { MapPin, BadgeCheck, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Speaker } from "@/types";
@@ -19,12 +18,10 @@ export default function SpeakerCard({ speaker }: SpeakerCardProps) {
       {/* Photo / placeholder */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         {speaker.photo_url ? (
-          <Image
+          <img
             src={speaker.photo_url}
             alt={speaker.full_name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex size-full items-center justify-center bg-primary/10">
