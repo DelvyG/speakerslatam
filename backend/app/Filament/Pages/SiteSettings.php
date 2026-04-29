@@ -14,8 +14,6 @@ class SiteSettings extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-
     protected static ?string $navigationLabel = 'Configuracion del sitio';
 
     protected static ?string $title = 'Configuracion del Sitio';
@@ -25,6 +23,11 @@ class SiteSettings extends Page implements HasForms
     protected static ?int $navigationSort = 99;
 
     protected static string $view = 'filament.pages.site-settings';
+
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-cog-6-tooth';
+    }
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
