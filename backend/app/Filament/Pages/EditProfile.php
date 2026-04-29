@@ -5,9 +5,9 @@ namespace App\Filament\Pages;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -36,7 +36,7 @@ class EditProfile extends Page implements HasForms
         $this->passwordForm->fill();
     }
 
-    public function profileForm(Form $form): Form
+    public function profileForm(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -54,7 +54,7 @@ class EditProfile extends Page implements HasForms
             ->statePath('profileData');
     }
 
-    public function passwordForm(Form $form): Form
+    public function passwordForm(Schema $form): Schema
     {
         return $form
             ->schema([
