@@ -4,7 +4,10 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import SiteHead from "@/components/SiteHead";
+import { BodyStartCode, BodyEndCode } from "@/components/CodeInjection";
 import { QueryProvider } from "@/lib/providers";
+import { SiteSettingsProvider } from "@/lib/site-settings";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -31,6 +34,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_LA",
   },
+  icons: {
+    icon: "/branding/favicon.png",
+    apple: "/branding/favicon-180.png",
+  },
 };
 
 export default function RootLayout({
@@ -40,12 +47,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
+      <head>
+        <link rel="icon" type="image/png" href="https://speakerslatam.net/branding/favicon.png" />
+        <link rel="apple-touch-icon" href="https://speakerslatam.net/branding/favicon-180.png" />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <QueryProvider>
-          <AnalyticsTracker />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <SiteSettingsProvider>
+            <SiteHead />
+            <BodyStartCode />
+            <AnalyticsTracker />
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <BodyEndCode />
+          </SiteSettingsProvider>
         </QueryProvider>
       </body>
     </html>

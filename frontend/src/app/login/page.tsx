@@ -6,11 +6,13 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Mic, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import { Eye, EyeOff } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { login } from '@/lib/queries';
 import { setToken } from '@/lib/auth';
+import { useSiteSettings, getBackendUrl } from '@/lib/site-settings';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'El correo es obligatorio').email('Ingresa un correo valido'),
@@ -23,6 +25,9 @@ export default function LoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const settings = useSiteSettings();
+  const logoLoginUrl = getBackendUrl(settings.logo_login_url);
+  const logoUrl = getBackendUrl(settings.logo_url);
 
   const {
     register,
@@ -54,9 +59,18 @@ export default function LoginPage() {
         <div className="pointer-events-none absolute -bottom-20 -left-20 size-64 rounded-full bg-accent/5 blur-3xl" />
 
         <div className="relative">
-          <Link href="/" className="flex items-center gap-2 text-white mb-12">
-            <Mic className="size-8 text-accent" />
-            <span className="text-2xl font-bold">SpeakerLATAM</span>
+          <Link href="/" className="mb-12 inline-block">
+            {logoLoginUrl ? (
+              <Image
+                src={logoLoginUrl}
+                alt={settings.site_name || 'SpeakerLATAM'}
+                width={300}
+                height={125}
+                className="h-20 w-auto brightness-0 invert"
+              />
+            ) : (
+              <span className="text-2xl font-bold text-white">SpeakerLATAM</span>
+            )}
           </Link>
 
           <h2 className="text-3xl font-bold text-white leading-tight">
@@ -86,9 +100,18 @@ export default function LoginPage() {
       <div className="flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16 xl:px-24">
         {/* Mobile logo */}
         <div className="lg:hidden mb-8">
-          <Link href="/" className="flex items-center gap-2 text-primary">
-            <Mic className="size-7 text-accent" />
-            <span className="text-xl font-bold">SpeakerLATAM</span>
+          <Link href="/" className="inline-block">
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={settings.site_name || 'SpeakerLATAM'}
+                width={180}
+                height={48}
+                className="h-10 w-auto"
+              />
+            ) : (
+              <span className="text-xl font-bold text-primary">SpeakerLATAM</span>
+            )}
           </Link>
         </div>
 

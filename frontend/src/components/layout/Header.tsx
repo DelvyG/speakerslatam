@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
+import { useSiteSettings, getBackendUrl } from "@/lib/site-settings";
 
 const NAV_LINKS = [
   { href: "/directorio", label: "Directorio" },
@@ -21,6 +23,8 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const settings = useSiteSettings();
+  const logoUrl = getBackendUrl(settings.logo_url);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -37,12 +41,25 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-1">
-          <span className="text-xl font-bold tracking-tight text-primary">
-            Speaker
-          </span>
-          <span className="text-xl font-bold tracking-tight text-accent">
-            LATAM
-          </span>
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={settings.site_name || "SpeakerLATAM"}
+              width={180}
+              height={48}
+              className="h-9 w-auto"
+              priority
+            />
+          ) : (
+            <>
+              <span className="text-xl font-bold tracking-tight text-primary">
+                Speaker
+              </span>
+              <span className="text-xl font-bold tracking-tight text-accent">
+                LATAM
+              </span>
+            </>
+          )}
         </Link>
 
         {/* Desktop nav */}
@@ -85,8 +102,20 @@ export default function Header() {
             <SheetContent side="right" className="w-72 p-0">
               <SheetHeader className="border-b px-4 py-4">
                 <SheetTitle>
-                  <span className="font-bold text-primary">Speaker</span>
-                  <span className="font-bold text-accent">LATAM</span>
+                  {logoUrl ? (
+                    <Image
+                      src={logoUrl}
+                      alt={settings.site_name || "SpeakerLATAM"}
+                      width={140}
+                      height={38}
+                      className="h-8 w-auto"
+                    />
+                  ) : (
+                    <>
+                      <span className="font-bold text-primary">Speaker</span>
+                      <span className="font-bold text-accent">LATAM</span>
+                    </>
+                  )}
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-1 p-4">
