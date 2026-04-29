@@ -39,15 +39,19 @@ class SiteSettings extends Page implements HasForms
 
     public ?array $data = [];
 
+    private const FILE_KEYS = ['logo_url', 'logo_login_url', 'favicon_url', 'seo_og_image'];
+
     public function mount(): void
     {
         $settings = SiteSetting::pluck('value', 'key')->toArray();
 
         // Convert stored paths to array format for FileUpload
-        foreach (['logo_url', 'logo_login_url', 'favicon_url', 'seo_og_image'] as $key) {
+        // FileUpload expects ['relative/path/file.png'] relative to disk
+        foreach (self::FILE_KEYS as $key) {
             if (!empty($settings[$key])) {
-                $filename = basename($settings[$key]);
-                $settings[$key] = [$filename];
+                // Strip /storage/ prefix to get disk-relative path
+                $path = preg_replace('#^/storage/#', '', $settings[$key]);
+                $settings[$key] = [$path];
             }
         }
 
