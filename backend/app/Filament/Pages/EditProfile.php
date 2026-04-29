@@ -2,11 +2,13 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -40,14 +42,14 @@ class EditProfile extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Datos Personales')
+                Section::make('Datos Personales')
                     ->description('Actualiza tu nombre y correo electronico.')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->label('Nombre completo')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->label('Correo electronico')
                             ->email()
                             ->required()
@@ -55,7 +57,7 @@ class EditProfile extends Page implements HasForms
                     ])
                     ->columns(2)
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('updateProfile')
+                        Action::make('updateProfile')
                             ->label('Guardar cambios')
                             ->icon('heroicon-o-check')
                             ->submit('updateProfile'),
@@ -68,21 +70,21 @@ class EditProfile extends Page implements HasForms
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Cambiar Contrasena')
+                Section::make('Cambiar Contrasena')
                     ->description('Asegurate de usar una contrasena segura de al menos 8 caracteres.')
                     ->schema([
-                        Forms\Components\TextInput::make('current_password')
+                        TextInput::make('current_password')
                             ->label('Contrasena actual')
                             ->password()
                             ->revealable()
                             ->required(),
-                        Forms\Components\TextInput::make('new_password')
+                        TextInput::make('new_password')
                             ->label('Nueva contrasena')
                             ->password()
                             ->revealable()
                             ->required()
                             ->minLength(8),
-                        Forms\Components\TextInput::make('new_password_confirmation')
+                        TextInput::make('new_password_confirmation')
                             ->label('Confirmar nueva contrasena')
                             ->password()
                             ->revealable()
@@ -91,7 +93,7 @@ class EditProfile extends Page implements HasForms
                     ])
                     ->columns(3)
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('updatePassword')
+                        Action::make('updatePassword')
                             ->label('Actualizar contrasena')
                             ->icon('heroicon-o-lock-closed')
                             ->submit('updatePassword'),
