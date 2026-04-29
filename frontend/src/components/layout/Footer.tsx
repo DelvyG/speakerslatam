@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FooterLegal from "@/components/layout/FooterLegal";
 
 const EXPLORE_LINKS = [
   { href: "/directorio", label: "Directorio" },
@@ -9,12 +10,6 @@ const EXPLORE_LINKS = [
 const COMPANY_LINKS = [
   { href: "/para-empresas", label: "Servicio Concierge" },
   { href: "/para-empresas#propuesta", label: "Solicitar Propuesta" },
-];
-
-const SUPPORT_LINKS = [
-  { href: "/contacto", label: "Contacto" },
-  { href: "/terminos", label: "Terminos y Condiciones" },
-  { href: "/privacidad", label: "Politica de Privacidad" },
 ];
 
 export default function Footer() {
@@ -73,23 +68,7 @@ export default function Footer() {
           </div>
 
           {/* Support */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Soporte
-            </h3>
-            <ul className="space-y-2.5">
-              {SUPPORT_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/60 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterLegal />
         </div>
 
         {/* Bottom bar */}
