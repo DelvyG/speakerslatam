@@ -68,8 +68,6 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
               src={speaker.photo_url}
               alt={speaker.full_name}
               className="absolute inset-0 size-full object-cover object-top opacity-60"
-              sizes="100vw"
-              priority
             />
           ) : (
             <div className="size-full bg-primary" />
@@ -218,7 +216,6 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
                         src={url}
                         alt={`${speaker.full_name} - foto ${i + 1}`}
                         className="absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-105"
-                        sizes="(max-width: 640px) 50vw, 33vw"
                       />
                     </div>
                   ))}
