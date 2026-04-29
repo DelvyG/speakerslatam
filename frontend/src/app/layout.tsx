@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     locale: "es_LA",
   },
   icons: {
-    icon: "/branding/favicon.png",
-    apple: "/branding/favicon-180.png",
+    icon: "/storage/branding/favicon.png",
+    apple: "/storage/branding/favicon.png",
   },
 };
 
@@ -47,10 +47,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
-      <head>
-        <link rel="icon" type="image/png" href="https://speakerslatam.net/branding/favicon.png" />
-        <link rel="apple-touch-icon" href="https://speakerslatam.net/branding/favicon-180.png" />
-      </head>
       <body className="min-h-full flex flex-col font-sans">
         <QueryProvider>
           <SiteSettingsProvider>
