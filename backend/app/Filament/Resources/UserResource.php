@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -44,7 +45,7 @@ class UserResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Datos del usuario')
+                Section::make('Datos del usuario')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nombre')
@@ -68,7 +69,7 @@ class UserResource extends Resource
                             ->relationship('roles', 'name'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Verificacion')
+                Section::make('Verificacion')
                     ->schema([
                         Forms\Components\DateTimePicker::make('email_verified_at')
                             ->label('Email verificado el'),
