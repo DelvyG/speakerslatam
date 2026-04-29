@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { QueryProvider } from "@/lib/providers";
+
+const inter = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "SpeakerLATAM - Directorio de Conferencistas de America Latina",
+  description:
+    "Encuentra y contrata a los mejores conferencistas, speakers y panelistas de America Latina. Directorio con mas de 500 profesionales en liderazgo, innovacion, tecnologia, ventas y mas.",
+  keywords: [
+    "conferencistas",
+    "speakers",
+    "America Latina",
+    "conferencias",
+    "eventos",
+    "panelistas",
+    "keynote",
+  ],
+  openGraph: {
+    title: "SpeakerLATAM - Directorio de Conferencistas de America Latina",
+    description:
+      "Encuentra y contrata a los mejores conferencistas de America Latina.",
+    type: "website",
+    locale: "es_LA",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="es" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <QueryProvider>
+          <AnalyticsTracker />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </QueryProvider>
+      </body>
+    </html>
+  );
+}

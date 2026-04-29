@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#640f00",
+                    "tertiary-fixed": "#e5e2dd",
+                    "outline": "#74777e",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fd6a49",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "on-secondary-fixed": "#3d0600",
+                    "surface-container-high": "#eae7e7",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed": "#ffdad2",
+                    "secondary": "#ae3115",
+                    "tertiary": "#0e0f0c",
+                    "on-secondary-fixed-variant": "#8c1900",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#b0c8eb",
+                    "tertiary-fixed-dim": "#c8c6c2",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "outline-variant": "#c4c6ce",
+                    "tertiary-container": "#242421",
+                    "on-tertiary-container": "#8c8b87",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0a2540",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#ffb4a3",
+                    "surface-bright": "#fcf9f8",
+                    "on-surface-variant": "#43474d",
+                    "primary": "#000f22",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#001c37",
+                    "background": "#fcf9f8",
+                    "on-primary-container": "#768dad",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface": "#fcf9f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary-fixed-variant": "#474743"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "xl": "64px",
+                    "sm": "16px",
+                    "md": "24px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .speaker-card-shadow {
+            box-shadow: 0 20px 40px rgba(10, 37, 64, 0.08);
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(0, 15, 34, 0.9) 0%, rgba(0, 15, 34, 0.4) 50%, rgba(0, 15, 34, 0) 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-background">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-slate-50 font-headline-lg">
+                SpeakerLATAM
+            </div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-md text-sm" href="#">Inicio</a>
+<a class="text-slate-900 dark:text-white border-b-2 border-slate-900 dark:border-white pb-1 font-label-md text-sm" href="#">Conferencistas</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-md text-sm" href="#">Para Empresas</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-md text-sm" href="#">Recursos</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-label-md text-sm" href="#">Comunidad</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="text-slate-600 font-label-md text-sm hover:opacity-90">Iniciar Sesión</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md text-sm hover:opacity-90 transition-all duration-200 active:scale-95">Registrarme</button>
+</div>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative h-[500px] w-full overflow-hidden">
+<div class="absolute inset-0 bg-primary">
+<img alt="Professional Speaker" class="w-full h-full object-cover object-top opacity-70" data-alt="cinematic wide shot of a professional male speaker in a sharp navy suit standing on a modern stage with warm ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvKAxcIscmGhtc9ikGnmh8YTft9_X305lFqBeEJPq1Rvn1488SMHwNpBdnaAtumfJhWyizhPIkQWsi8yyzcFxXpHGyxtBRlgPEW3Rt7nvk2lFSbTNtPq9JVAu6yB8emCMoJx_mWFLKXxgSUp5h8rYKhYAYxSJIxBocvR2SzdrlVnW22Bo2bpar72YLHLJxHcgtTWwj83chvr7IRPN-sZ1xIIH5kpgkATaYGqqsV01dt5vQpS9Wy16mwEy0zIINRHalhg9l2ktXwq4"/>
+<div class="absolute inset-0 hero-overlay"></div>
+</div>
+<div class="relative max-w-7xl mx-auto px-6 h-full flex flex-col justify-center text-white">
+<div class="flex items-center space-x-3 mb-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm uppercase tracking-wider">Top Rated</span>
+<div class="flex items-center text-yellow-400">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="ml-1 font-label-md">4.9/5</span>
+</div>
+</div>
+<h1 class="font-display-lg text-white mb-2">Alejandro Villalobos</h1>
+<p class="font-headline-md text-on-primary-container mb-6 max-w-2xl">Experto en Transformación Digital y Futuro del Trabajo en Latinoamérica</p>
+<div class="flex items-center space-x-4">
+<div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+<span class="material-symbols-outlined mr-2">public</span>
+<span class="font-label-md">México / Global</span>
+</div>
+<div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/20">
+<span class="material-symbols-outlined mr-2">translate</span>
+<span class="font-label-md">Español, Inglés</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating CTA Mobile (Hidden on Desktop) -->
+<div class="md:hidden fixed bottom-6 left-6 right-6 z-40">
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-xl font-label-md shadow-lg flex items-center justify-center space-x-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>Solicitar para mi evento</span>
+</button>
+</div>
+<!-- Content Grid -->
+<section class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: Main Content -->
+<div class="lg:col-span-8">
+<!-- Navigation Tabs -->
+<div class="flex border-b border-surface-variant mb-8 overflow-x-auto whitespace-nowrap">
+<button class="px-6 py-4 border-b-2 border-secondary font-label-md text-secondary">Bio</button>
+<button class="px-6 py-4 font-label-md text-on-surface-variant hover:text-secondary transition-colors">Conferencias</button>
+<button class="px-6 py-4 font-label-md text-on-surface-variant hover:text-secondary transition-colors">Videos</button>
+<button class="px-6 py-4 font-label-md text-on-surface-variant hover:text-secondary transition-colors">Testimonios</button>
+</div>
+<!-- Bio Content -->
+<div class="prose prose-slate max-w-none mb-12">
+<h3 class="font-headline-lg text-primary mb-4">Sobre Alejandro</h3>
+<p class="font-body-lg text-on-surface-variant mb-6">
+                        Con más de 15 años liderando iniciativas de innovación tecnológica en las empresas más grandes de la región, Alejandro se ha consolidado como la voz líder en transformación organizacional. Su enfoque no solo abarca la tecnología, sino el factor humano indispensable para el cambio.
+                    </p>
+<p class="font-body-lg text-on-surface-variant">
+                        Ha sido orador principal en eventos como TEDx, Mobile World Congress y el Foro Latinoamericano de Negocios, inspirando a miles de líderes a abrazar la agilidad y la mentalidad digital.
+                    </p>
+</div>
+<!-- Topics Section -->
+<div class="mb-12">
+<h4 class="font-headline-md text-primary mb-6">Áreas de Experiencia</h4>
+<div class="flex flex-wrap gap-3">
+<span class="bg-primary/5 text-primary px-4 py-2 rounded-full font-label-md border border-primary/10">Futuro del Trabajo</span>
+<span class="bg-primary/5 text-primary px-4 py-2 rounded-full font-label-md border border-primary/10">Agile Leadership</span>
+<span class="bg-primary/5 text-primary px-4 py-2 rounded-full font-label-md border border-primary/10">Inteligencia Artificial Aplicada</span>
+<span class="bg-primary/5 text-primary px-4 py-2 rounded-full font-label-md border border-primary/10">Cultura de Innovación</span>
+<span class="bg-primary/5 text-primary px-4 py-2 rounded-full font-label-md border border-primary/10">Estrategia Digital</span>
+</div>
+</div>
+<!-- Video Placeholder Section -->
+<div class="mb-12">
+<h4 class="font-headline-md text-primary mb-6">Demo Reel &amp; Conferencias</h4>
+<div class="relative aspect-video rounded-xl overflow-hidden speaker-card-shadow group cursor-pointer bg-slate-900">
+<img alt="Video thumbnail" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" data-alt="high-angle shot of a speaker on a large stage with blue and purple spotlighting and a large audience in shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGu4U6igqOb7X7RZrfPMZlL6CWqME-xPSC9xglRzATcILCUQkd968NyoiPON-odJqPDXpmh1f6TSYDZ31svY6IOW5z0IP-Q6Vsjv3QgAzN1223TqG1nK3LNRXdVQRKqACiLNkQxF8PKwGAv9pra803p0y_nclkU768ZYlkqJ7E5eTuDJB1caEAV6CTovQczPJTMAYfclnaW5HjFr9m1t8GeAS-eeufMaO4wCd3HhK8eId54omt2v8-txm8Mfd_JWiGt5JWZMn5_bg"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-20 h-20 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="font-label-md text-sm uppercase tracking-widest opacity-80 mb-1">Highlight Reel 2024</p>
+<p class="font-headline-md">Liderazgo en la Era de la IA</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sidebar Widget -->
+<div class="lg:col-span-4">
+<div class="sticky top-28">
+<div class="bg-white rounded-xl speaker-card-shadow p-8 border border-surface-variant">
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-xl font-label-md shadow-md flex items-center justify-center space-x-2 mb-8 hover:opacity-95 active:scale-95 transition-all">
+<span class="material-symbols-outlined">mail</span>
+<span>Solicitar para mi evento</span>
+</button>
+<div class="space-y-6">
+<div>
+<h5 class="font-label-md text-on-surface-variant uppercase tracking-widest text-xs mb-4">Disponibilidad</h5>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md">Octubre 2024</span>
+<div class="flex space-x-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">chevron_left</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">chevron_right</span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center text-[10px] font-bold text-on-surface-variant mb-2">
+<span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+</div>
+<div class="grid grid-cols-7 gap-1">
+<!-- Mini Calendar Mockup -->
+<div class="h-8 flex items-center justify-center text-xs opacity-30">29</div>
+<div class="h-8 flex items-center justify-center text-xs opacity-30">30</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium">1</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium bg-secondary/10 text-secondary rounded-full">2</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium">3</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium bg-secondary/10 text-secondary rounded-full">4</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium">5</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium">6</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium bg-secondary/10 text-secondary rounded-full">7</div>
+<div class="h-8 flex items-center justify-center text-xs font-medium">8</div>
+<!-- ... more days -->
+</div>
+</div>
+</div>
+<div class="pt-6 border-t border-surface-variant">
+<h5 class="font-label-md text-on-surface-variant uppercase tracking-widest text-xs mb-4">Información de Contacto</h5>
+<div class="space-y-4">
+<div class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-3 text-secondary">location_on</span>
+<span class="font-body-md text-sm">CDMX, México</span>
+</div>
+<div class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-3 text-secondary">language</span>
+<span class="font-body-md text-sm">alejandrovillalobos.com</span>
+</div>
+<div class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-3 text-secondary">share</span>
+<div class="flex space-x-3">
+<span class="material-symbols-outlined text-lg cursor-pointer">brand_awareness</span>
+<span class="material-symbols-outlined text-lg cursor-pointer">video_camera_front</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Related Speakers -->
+<section class="bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline-lg text-primary mb-2">Conferencistas Relacionados</h2>
+<p class="font-body-md text-on-surface-variant">Otros expertos en transformación y liderazgo que podrían interesarte.</p>
+</div>
+<a class="font-label-md text-secondary flex items-center group" href="#">
+                        Ver todos <span class="material-symbols-outlined ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Related Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden speaker-card-shadow group cursor-pointer border border-surface-variant/50">
+<div class="h-48 overflow-hidden">
+<img alt="Related Speaker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="close-up portrait of a professional woman with a warm smile in a modern office setting with natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsNChIELa_vr9gfPwNa71yq3zygB6PSUiduyXjCIHFzbkucbg1W7kGArHZS2FHQDp5a_ux6PB63MwBJjsuvrwlNrfmpqdH1G6QhMduK-FYt5fnKVkG67rD-HMY8aqrnsD8fkk-AbkdpDGsZf-NfW6WjI1oK9-pYH3t8bonzCPihppMET45C7Ai2c_zgMqNFD3hDVKmy618JKoJtf8jo89aJ0giFy3wTNRLwdV013a1hJ7WuDUHf9NimHSB5B9gQqOvu8PjmlprUiw"/>
+</div>
+<div class="p-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-yellow-400 flex items-center font-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span> 4.8
+                                </span>
+<span class="bg-primary/5 text-primary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Liderazgo</span>
+</div>
+<h4 class="font-headline-md text-lg mb-1 group-hover:text-secondary transition-colors">Elena Rodríguez</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Especialista en Inteligencia Emocional</p>
+</div>
+</div>
+<!-- Related Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden speaker-card-shadow group cursor-pointer border border-surface-variant/50">
+<div class="h-48 overflow-hidden">
+<img alt="Related Speaker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="portrait of a creative professional male in a minimal studio setting, soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4HgfhoSDp7VnLpNFIx8Law_dYEie7c2oBuKkXgSXeSnJVrAr5veEcCPV0UNEMV6ieZKe1ujTJIxToGC-MHJLQ7N3bnOUGNArk9tC5RXPaCBOc62Go_N_KQOnXKuIcwhFj6EnGCAkdghfnIhcYneL2PXnBlwJCYKmIrw8lfROBF6zOcRlnNzEjfIhSdrSG1CbT6_MdYI-mRtlMfBKxvRG1ZZwY0v1HrXodvjiQxt6nCXW03nPzaPrKkQ_eme1vIk8gsfDGTClbYBs"/>
+</div>
+<div class="p-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-yellow-400 flex items-center font-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span> 5.0
+                                </span>
+<span class="bg-primary/5 text-primary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Innovación</span>
+</div>
+<h4 class="font-headline-md text-lg mb-1 group-hover:text-secondary transition-colors">Marco Polo Jr.</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Futurista y Estratega Digital</p>
+</div>
+</div>
+<!-- Related Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden speaker-card-shadow group cursor-pointer border border-surface-variant/50">
+<div class="h-48 overflow-hidden">
+<img alt="Related Speaker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="confident professional woman looking directly at camera with blurred urban background at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwA_PZeMRxWheE8o0ErQX5W3iGSv290qF1oLq5OqZY6PtjJXJevI3txgAEIiQA3KJHJjOxZgx1s2Exyu_p8AnUuhZMqmVVdfSfAs5zkZ0LKTexvbAxCJjPOJFGdFAW1Ns90hMpCqcjb0n53-JnVIvgqzTwmknh5vLbl7GTGee-w2MgtDi8DVKnEITCUFVqtl3cU8T5jDq3N55TrxlrMPe9AhchBjsDa5cviLMitQPanTuWIx6l88Z2XshcGOmjsSdZCGYW2a30Bak"/>
+</div>
+<div class="p-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-yellow-400 flex items-center font-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span> 4.9
+                                </span>
+<span class="bg-primary/5 text-primary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Agilidad</span>
+</div>
+<h4 class="font-headline-md text-lg mb-1 group-hover:text-secondary transition-colors">Sofía Méndez</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Coach de Equipos de Alto Rendimiento</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full pt-16 pb-8 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="md:col-span-1">
+<div class="text-lg font-bold text-slate-900 dark:text-white mb-4">SpeakerLATAM</div>
+<p class="font-['Manrope'] text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    Conectando talento con impacto. La red de conferencistas más influyente de América Latina.
+                </p>
+</div>
+<div>
+<h6 class="font-semibold text-slate-900 dark:text-white mb-4 font-label-md">Plataforma</h6>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Explorar Speakers</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Cómo funciona</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Precios</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-semibold text-slate-900 dark:text-white mb-4 font-label-md">Soporte</h6>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Centro de Ayuda</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Contacto</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Prensa</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-semibold text-slate-900 dark:text-white mb-4 font-label-md">Legal</h6>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Aviso Legal</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Privacidad</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Términos de Servicio</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:row justify-between items-center space-y-4 md:space-y-0">
+<div class="font-['Manrope'] text-sm leading-relaxed text-slate-500 dark:text-slate-400">© 2024 SpeakerLATAM. Conectando talento con impacto.</div>
+<div class="flex space-x-6">
+<!-- Social links icons placeholder -->
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">group</span>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-primary transition-colors">podcasts</span>
+</div>
+</div>
+</footer>
+</body></html>

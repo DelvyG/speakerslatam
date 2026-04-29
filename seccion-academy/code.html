@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#640f00",
+                    "tertiary-fixed": "#e5e2dd",
+                    "outline": "#74777e",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fd6a49",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "on-secondary-fixed": "#3d0600",
+                    "surface-container-high": "#eae7e7",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed": "#ffdad2",
+                    "secondary": "#ae3115",
+                    "tertiary": "#0e0f0c",
+                    "on-secondary-fixed-variant": "#8c1900",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#b0c8eb",
+                    "tertiary-fixed-dim": "#c8c6c2",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "outline-variant": "#c4c6ce",
+                    "tertiary-container": "#242421",
+                    "on-tertiary-container": "#8c8b87",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0a2540",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#ffb4a3",
+                    "surface-bright": "#fcf9f8",
+                    "on-surface-variant": "#43474d",
+                    "primary": "#000f22",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#001c37",
+                    "background": "#fcf9f8",
+                    "on-primary-container": "#768dad",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface": "#fcf9f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary-fixed-variant": "#474743"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "xl": "64px",
+                    "sm": "16px",
+                    "md": "24px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .raised-card {
+            box-shadow: 0 20px 40px rgba(10, 37, 64, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .raised-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(10, 37, 64, 0.12);
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 border-b border-slate-200/50 bg-white/80 glass-nav shadow-sm">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900 font-headline-lg">
+                SpeakerLATAM
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-900 border-b-2 border-slate-900 pb-1 font-label-md" href="#">Inicio</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors font-label-md" href="#">Conferencistas</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors font-label-md" href="#">Para Empresas</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors font-label-md" href="#">Recursos</a>
+<a class="text-slate-600 hover:text-slate-900 transition-colors font-label-md" href="#">Comunidad</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-600 font-label-md hover:text-slate-900 transition-colors active:scale-95 duration-150">Iniciar Sesión</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded-lg font-label-md hover:opacity-90 transition-all duration-200 active:scale-95">Registrarme</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative pt-32 pb-20 overflow-hidden">
+<div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<span class="inline-block py-1 px-3 rounded-full bg-secondary-container/10 text-secondary font-label-sm mb-6 uppercase tracking-wider">Speaker Academy</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-6">Conviértete en un conferencista de élite</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-lg">Domina el escenario, construye una marca personal influyente y conecta con las audiencias más exigentes de Latinoamérica.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-secondary text-white px-8 py-4 rounded-xl font-label-md hover:opacity-90 shadow-lg active:scale-95 transition-all">Explorar Cursos</button>
+<button class="border border-outline bg-white text-primary px-8 py-4 rounded-xl font-label-md hover:bg-surface-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                        Ver Demo
+                    </button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute inset-0 bg-secondary-container/20 rounded-3xl -rotate-3 scale-105"></div>
+<img alt="Professional speaker" class="relative z-10 rounded-3xl object-cover aspect-video md:aspect-square shadow-2xl" data-alt="Charismatic professional speaker presenting to a large audience in a modern auditorium with dramatic warm stage lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArUNKpmJJyKm3BHWqQao3oyTbYhLHBySJ_WaNxwEmPrqmhXKjOubeaOBN1rN3yU0KPWcR1QNxJQKLN3xigtDd98V6JsZhSvwRZ3P6pj9YoYASoqYlp9o0aQQVcYhFWIaYeE5xK4s9YSoi7DHE8cjh7sy-S9iq9BljSEWyd_fYIc-s4XiA3A41BEswaTZzvF6O4qcR_ToGCQh2wQvhxvV7ZHOjvIvigXKjhEvtlrPkPtaX75CEvrTJdUCl81fnjvxarDFwQvQLn_Zs"/>
+</div>
+</div>
+</header>
+<!-- Learning Paths Section (Bento) -->
+<section class="py-xl bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6">
+<div class="mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Rutas de Aprendizaje</h2>
+<p class="text-on-surface-variant font-body-md">Programas curados para llevar tu carrera al siguiente nivel.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="md:col-span-2 relative group overflow-hidden rounded-3xl h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Close up of a TED-style red circular carpet on a stage with blurred lights in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlxtw4Z5OxuVvv5ZIXpS9focvDWtieqrVsywG04Hp4V7DNGtpmc_bRkxUic7QXfmKS0KgXb3wlDHwgS2oPlv0-UXCaqWgKEqSdlao5dHPOgXEF0MYeVJUB9Cw9MDB8F1jT2jwXnqUBdxrgH5e3sLuagm8z8N1ggQpXer4sbieuqYHztN_lRLbb9RpOjEcfB4hzdhtJmbIJnCWYEcPt0P9CIeUG5DaCKuIvxV9lXUpmznbYYs7sWiEOQjz_YMeDkvGr97WqUNBXkbY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-lg text-white">
+<h3 class="font-headline-lg text-headline-lg mb-2">De principiante a TEDx</h3>
+<p class="font-body-md opacity-90 max-w-md mb-6">El camino completo para estructurar tu charla más poderosa y llegar a los escenarios más prestigiosos del mundo.</p>
+<button class="bg-secondary text-white px-6 py-2 rounded-lg font-label-md active:scale-95 transition-all">Iniciar Ruta</button>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-3xl bg-primary h-[400px]">
+<div class="p-lg h-full flex flex-col justify-between relative z-10">
+<div>
+<span class="text-secondary-container font-label-md block mb-4 uppercase">Especialización</span>
+<h3 class="font-headline-lg text-headline-lg text-white mb-4">Personal Branding</h3>
+<p class="text-on-primary-container font-body-md">Crea una identidad digital que atraiga a organizadores de eventos.</p>
+</div>
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-white/20" data-alt="Professional portrait of a business woman with a confident smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdg0Wo5I51c0YXkkJyMNuNfEe_iQP_lVuoDyxhHW3JywwasTTnotcYccMwlEiIxIzi56rxl0B_rBFETUGqRJK8oLcXwrFQme_UMAB5je-qLLxphW_Hm6R5PCxBUEuxFOdrZXENoE08pDzuX2_z_yTaU8-yiGGtycpDbLPmfPEqnnVZQEzcCflnuJVjNX9P0JrgeHFoZaq53clsXuY6q94QDSygz8Ey9ned-p0WO7qPEzDvKAzQ1GDsssZGH-3aHTWu-iO3OUL13eI"/>
+<div class="text-white">
+<p class="font-label-md">Por Elena Ruiz</p>
+<p class="text-xs opacity-70 font-label-sm">Estratega de Marca</p>
+</div>
+</div>
+</div>
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[120px] text-white" data-icon="star">star</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Course Explorer Section -->
+<section class="py-xl">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Explora la Academia</h2>
+<div class="flex gap-4 mt-6">
+<button class="px-6 py-2 rounded-full bg-primary text-white font-label-md">Cursos</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface-variant font-label-md hover:bg-surface-variant transition-colors">Masterclasses</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface-variant font-label-md hover:bg-surface-variant transition-colors">Guías</button>
+</div>
+</div>
+<div class="flex items-center gap-2 text-primary cursor-pointer font-label-md group">
+                    Ver todos los cursos
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="raised-card bg-white rounded-xl overflow-hidden flex flex-col h-full">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="Overhead shot of a workspace with a microphone, notebook, and a coffee cup for content creation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5Nn8MAUl4I0L36Xqij0grGg5-1NR0nhHjpXLy9ENOyXra9sX9lPAN1YrvvjJCwpbs2BC7xctJQqSaoKX0_Fv-V975qQ36VVlnuSJXbPiwC4yufXCi7inkbraAgs64k-8fYXIRtVCnyx1DbxK2bg-wCi04jLtPpUgnXILcblQY46U59fhJJEQIGUN4kBgKZMUCW6JpF8_raCOzgULkvPM0d8KLEVjgg9OFLwG41QKdsYzf0pXJ74YskXliD0a1xPRUXxKT4lgJmCk"/>
+<span class="absolute top-4 left-4 bg-primary/80 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-bold uppercase">Intermedio</span>
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<h4 class="font-headline-md text-[18px] text-primary mb-2">Storytelling para Speakers</h4>
+<p class="text-on-surface-variant text-sm mb-4">Aprende a estructurar historias que cautiven y emocionen.</p>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="schedule">schedule</span>
+<span class="text-xs text-on-surface-variant font-label-sm">8h 20min</span>
+<span class="text-on-surface-variant mx-1">•</span>
+<span class="text-xs text-on-surface-variant font-label-sm">Mario Vargas</span>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-slate-100">
+<span class="text-primary font-bold">$49.99</span>
+<button class="text-secondary font-label-md flex items-center gap-1">
+                                    Inscribirme <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="raised-card bg-white rounded-xl overflow-hidden flex flex-col h-full">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="Digital illustration of connections and global networking hubs on a dark blue background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf1wFJZqDgZAG5YxBKc_1oNPppl89GLY7B3pMtH9kvbC1HIvCzF0nwNlhxHGBPxC8gaqN-fINZGbUj9EO_PEtqoF9nCWZT7Ja0HQnBUVoAnY7ZTIWNj0cTmh2PXItL9NRnHg248jiSGh54nUVUzU6aA4WXMgCENAhO-b5sF67dNN69CNF2avUTO0uffc1jgQFPov88A0dNP-Qxtvaxt3O6wSM6_ivumKdSKJ8u7uRGPcr6ddv_rUdOm6nHLZDgndJk7GPq7wl-_tw"/>
+<span class="absolute top-4 left-4 bg-secondary/80 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-bold uppercase">Gratis</span>
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<h4 class="font-headline-md text-[18px] text-primary mb-2">Primeros pasos en el Escenario</h4>
+<p class="text-on-surface-variant text-sm mb-4">Supera el pánico escénico con técnicas profesionales.</p>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="schedule">schedule</span>
+<span class="text-xs text-on-surface-variant font-label-sm">2h 45min</span>
+<span class="text-on-surface-variant mx-1">•</span>
+<span class="text-xs text-on-surface-variant font-label-sm">Diana Flores</span>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-slate-100">
+<span class="text-secondary font-bold">GRATIS</span>
+<button class="text-secondary font-label-md flex items-center gap-1">
+                                    Acceder <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="raised-card bg-white rounded-xl overflow-hidden flex flex-col h-full">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="People collaborating around a wooden table in a high-end office environment with warm morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI_Nse8eMORwyYg53pQ0tJunq0C1_x4xk_5QCJLx207cXstekZ4rjYgCH2PkaTpaMUANuwWWnQWfgFQElsFlbHH95WORJQi_9EKrhowxvbBsGLV65m9CP1qvN81HmGPgqthbHkz_IggLqnFz1Gl4cEuGDXtPtx6byJ4SRwXqyiYX9AL7NpP3KfQkdKXEj13RDLoiF-R-lU-K_0UC6CQasY0VO9Q_p3YoE5o2BFBAZVxhw0FUNTHh245PE71UqZHInafq8anC2Gsvw"/>
+<span class="absolute top-4 left-4 bg-primary/80 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-bold uppercase">Avanzado</span>
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<h4 class="font-headline-md text-[18px] text-primary mb-2">Ventas de Alto Impacto</h4>
+<p class="text-on-surface-variant text-sm mb-4">Cómo vender tus conferencias a grandes corporativos.</p>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="schedule">schedule</span>
+<span class="text-xs text-on-surface-variant font-label-sm">12h 00min</span>
+<span class="text-on-surface-variant mx-1">•</span>
+<span class="text-xs text-on-surface-variant font-label-sm">Carlos Slim</span>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-slate-100">
+<span class="text-primary font-bold">$129.00</span>
+<button class="text-secondary font-label-md flex items-center gap-1">
+                                    Inscribirme <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="raised-card bg-white rounded-xl overflow-hidden flex flex-col h-full">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="Group of students or young professionals having a focused discussion in a bright co-working space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0p8LEpVR2mvkLdQ-8tzgTUMjkuKZkY2otxX0BEokJJm9VEq1QxyN9_MiTnEwPwU2LWn4R2Aglz-epGYcqd47ZoyszZ7YiP-KADWvAh12n5s6hEs55W7eTRbBrKH5s1Hjml_D-ckU8h0MdyfjSNiEDSpMFCMi2E1z5wY4Lsyxm4gfaARIQNiVmQnMO0DxOXc0NAyyxWajfa0p2SF2fhXHiuKWcYSu4XN1FbMhfWESIKSYbyW_KKOKB_ttTaHRjrPS6Ct1jCfNVRPs"/>
+<span class="absolute top-4 left-4 bg-primary/80 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-bold uppercase">Intermedio</span>
+</div>
+<div class="p-sm flex flex-col flex-grow">
+<h4 class="font-headline-md text-[18px] text-primary mb-2">Diseño de Visuales TED</h4>
+<p class="text-on-surface-variant text-sm mb-4">Presentaciones que apoyan tu discurso, no lo distraen.</p>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="schedule">schedule</span>
+<span class="text-xs text-on-surface-variant font-label-sm">5h 45min</span>
+<span class="text-on-surface-variant mx-1">•</span>
+<span class="text-xs text-on-surface-variant font-label-sm">Ana Belén</span>
+</div>
+<div class="flex justify-between items-center pt-4 border-t border-slate-100">
+<span class="text-primary font-bold">$34.50</span>
+<button class="text-secondary font-label-md flex items-center gap-1">
+                                    Inscribirme <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Resources Section -->
+<section class="py-xl bg-primary">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-display-lg text-white mb-4">Herramientas Pro</h2>
+<p class="text-on-primary-container font-body-lg max-w-2xl mx-auto">Descarga los recursos esenciales que utilizan los conferencistas profesionales para gestionar sus giras y contratos.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Resource 1 -->
+<div class="bg-white/5 border border-white/10 p-8 rounded-2xl flex items-start gap-6 group hover:bg-white/10 transition-all">
+<div class="w-14 h-14 rounded-xl bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-3xl text-on-secondary-container" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div>
+<h3 class="font-headline-md text-white mb-2">Template: Professional Speaker Kit</h3>
+<p class="text-on-primary-container text-sm mb-6">Un PDF editable con la estructura ganadora para presentarte a organizadores de eventos y marcas.</p>
+<button class="flex items-center gap-2 text-secondary-container font-label-md group-hover:gap-3 transition-all">
+                            Descargar Ahora
+                            <span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<!-- Resource 2 -->
+<div class="bg-white/5 border border-white/10 p-8 rounded-2xl flex items-start gap-6 group hover:bg-white/10 transition-all">
+<div class="w-14 h-14 rounded-xl bg-primary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-3xl text-on-primary-fixed" data-icon="description">description</span>
+</div>
+<div>
+<h3 class="font-headline-md text-white mb-2">Modelo de Contrato de Speaker</h3>
+<p class="text-on-primary-container text-sm mb-6">Protege tu propiedad intelectual y asegura tus pagos con este modelo de contrato legal estándar.</p>
+<button class="flex items-center gap-2 text-primary-fixed font-label-md group-hover:gap-3 transition-all">
+                            Descargar Ahora
+                            <span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-8 border-t border-slate-200 bg-slate-50">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<div class="text-lg font-bold text-slate-900 mb-6">SpeakerLATAM</div>
+<p class="text-slate-500 font-body-md text-sm leading-relaxed mb-6">La plataforma líder para el desarrollo de líderes de opinión y conferencistas en el mundo hispano.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer" data-icon="public">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer" data-icon="groups">groups</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer" data-icon="mail">mail</span>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 mb-6 font-label-md">Academia</h4>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Cursos de Oratoria</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Marca Personal</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Masterclasses</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Certificaciones</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 mb-6 font-label-md">Soporte</h4>
+<ul class="space-y-4">
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Centro de Ayuda</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Preguntas Frecuentes</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Contacto</a></li>
+<li><a class="text-slate-500 hover:text-slate-900 transition-colors text-sm" href="#">Afiliados</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 mb-6 font-label-md">Newsletter</h4>
+<p class="text-slate-500 text-sm mb-4">Recibe consejos semanales de speakers élite.</p>
+<div class="flex flex-col gap-2">
+<input class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Tu email" type="email"/>
+<button class="bg-primary text-white py-2 rounded-lg text-sm font-label-md">Suscribirme</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-slate-500 text-sm font-body-md">© 2024 SpeakerLATAM. Conectando talento con impacto.</div>
+<div class="flex gap-6">
+<a class="text-slate-500 hover:text-slate-900 text-sm" href="#">Aviso Legal</a>
+<a class="text-slate-500 hover:text-slate-900 text-sm" href="#">Privacidad</a>
+<a class="text-slate-500 hover:text-slate-900 text-sm" href="#">Cookies</a>
+<a class="text-slate-500 hover:text-slate-900 text-sm" href="#">Términos de Servicio</a>
+</div>
+</div>
+</footer>
+</body></html>

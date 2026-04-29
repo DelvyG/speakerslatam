@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#640f00",
+                    "tertiary-fixed": "#e5e2dd",
+                    "outline": "#74777e",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fd6a49",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "on-secondary-fixed": "#3d0600",
+                    "surface-container-high": "#eae7e7",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed": "#ffdad2",
+                    "secondary": "#ae3115",
+                    "tertiary": "#0e0f0c",
+                    "on-secondary-fixed-variant": "#8c1900",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#b0c8eb",
+                    "tertiary-fixed-dim": "#c8c6c2",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "outline-variant": "#c4c6ce",
+                    "tertiary-container": "#242421",
+                    "on-tertiary-container": "#8c8b87",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0a2540",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#ffb4a3",
+                    "surface-bright": "#fcf9f8",
+                    "on-surface-variant": "#43474d",
+                    "primary": "#000f22",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#001c37",
+                    "background": "#fcf9f8",
+                    "on-primary-container": "#768dad",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface": "#fcf9f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary-fixed-variant": "#474743"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "xl": "64px",
+                    "sm": "16px",
+                    "md": "24px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .raised-card {
+            box-shadow: 0 20px 40px rgba(10, 37, 64, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-slate-50 font-headline-lg">
+                SpeakerLATAM
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Manrope'] text-sm font-medium tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Inicio</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Conferencistas</a>
+<a class="text-slate-900 dark:text-white border-b-2 border-slate-900 pb-1" href="#">Para Empresas</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Recursos</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Comunidad</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden lg:block font-label-md text-slate-600 hover:text-slate-900">Iniciar Sesión</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md hover:opacity-90 transition-all duration-200 active:scale-95">
+                    Registrarme
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[716px] flex items-center overflow-hidden bg-primary-container">
+<div class="absolute inset-0 opacity-40">
+<img class="w-full h-full object-cover" data-alt="Modern high-tech conference hall with dramatic blue stage lighting and silhouettes of a professional audience in soft focus background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxl_9glpKvGqLCQZA3wyNJtnPze9ycWh-yg2RCS5sAZNiucXR6CQXXfBKWrqhnyiU6v09F03hvcNJksaEZYHQfZ5cre_50pMvi5arJa6VeX4mBhqKiF32WKBy7zeORP7-q96FE7Cgm2XD9gbFBocJEiKkC4INQbO411wvhDz8KkyPISIfmjA0IFJzMAUS7YToI5BRuf7gSRMwmbOS_Zomtyf1Ubf4gHLyPj0pySziTwk9y9OOLpbakhYV7Wp4G8FoFfdm0fHGzZiA"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"></div>
+</div>
+<div class="relative max-w-7xl mx-auto px-6 py-24 z-10">
+<div class="max-w-2xl">
+<span class="inline-block px-3 py-1 mb-6 rounded-full bg-secondary-container text-on-secondary-container text-label-sm">SOLUCIONES CORPORATIVAS</span>
+<h1 class="font-display-lg text-display-lg text-white mb-8">
+                        Encuentra el speaker perfecto para tu próximo evento corporativo
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-primary-container mb-10 leading-relaxed">
+                        Conectamos a las organizaciones líderes de Latinoamérica con las mentes más brillantes en liderazgo, tecnología e innovación.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-lg font-label-md hover:opacity-90 transition-all raised-card">
+                            Solicitar propuesta
+                        </button>
+<button class="flex items-center justify-center gap-2 border border-on-primary-container/30 text-white px-8 py-4 rounded-lg font-label-md hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined">calendar_today</span>
+                            Agendar llamada con un asesor
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Intent Selection Section -->
+<section class="py-xl bg-surface">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid md:grid-cols-2 gap-gutter">
+<!-- Option 1 -->
+<div class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-8 raised-card border border-outline-variant/30 transition-all hover:-translate-y-1">
+<div class="flex items-center justify-between mb-6">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl">event_seat</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">arrow_forward</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4 text-primary">Organizar un Evento</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Elevamos el impacto de tus convenciones, lanzamientos y congresos anuales con conferencistas de alto nivel.</p>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center gap-3 text-label-md text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Curaduría de talento internacional
+                            </li>
+<li class="flex items-center gap-3 text-label-md text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Logística técnica y técnica
+                            </li>
+</ul>
+</div>
+<!-- Option 2 -->
+<div class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-8 raised-card border border-outline-variant/30 transition-all hover:-translate-y-1">
+<div class="flex items-center justify-between mb-6">
+<div class="w-16 h-16 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl">groups_3</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-secondary transition-colors">arrow_forward</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-4 text-primary">Capacitar a mi Equipo</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Programas de formación continua, workshops prácticos y mentorías para mandos medios y directivos.</p>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center gap-3 text-label-md text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Metodologías de aprendizaje activo
+                            </li>
+<li class="flex items-center gap-3 text-label-md text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Medición de impacto y KPIs
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="py-xl bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Nuestros Servicios</h2>
+<div class="w-20 h-1.5 bg-secondary-container mx-auto"></div>
+</div>
+<div class="grid md:grid-cols-3 gap-12">
+<div class="text-center">
+<div class="mb-6 inline-block p-4 rounded-2xl bg-white shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-4xl text-primary">podium</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Keynotes</h4>
+<p class="font-body-md text-on-surface-variant">Conferencias magistrales de 45 a 60 minutos diseñadas para inspirar, provocar el cambio y movilizar a la audiencia.</p>
+</div>
+<div class="text-center">
+<div class="mb-6 inline-block p-4 rounded-2xl bg-white shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-4xl text-primary">exercise</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Workshops</h4>
+<p class="font-body-md text-on-surface-variant">Sesiones de trabajo inmersivas de media jornada o día completo para el desarrollo de habilidades específicas.</p>
+</div>
+<div class="text-center">
+<div class="mb-6 inline-block p-4 rounded-2xl bg-white shadow-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-4xl text-primary">auto_awesome</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Curaduría</h4>
+<p class="font-body-md text-on-surface-variant">Análisis personalizado de su evento para seleccionar el talento que mejor se alinea con sus objetivos estratégicos.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="py-xl bg-surface">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary">Confían en nosotros</h2>
+<p class="font-body-md text-on-surface-variant">Más de 500 empresas han transformado su cultura con SpeakerLATAM.</p>
+</div>
+<div class="flex items-center gap-3 px-6 py-3 bg-primary-container text-on-primary-container rounded-full">
+<span class="material-symbols-outlined" data-weight="fill">verified_user</span>
+<span class="font-label-md">NDA Ready &amp; Corporate Standard</span>
+</div>
+</div>
+<!-- Logo Grid (Mocked) -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-60">
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Corporate minimalist logo of a global technology company in silver tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxg91hnaL2dZOpQrvPCvRQN3IRpkPpdhfgJzvDGJvJRtH1AuETu9DpZuhR_a8ZSMi-dH9JWQo7OTWoIucCgoUXQ9mv6m6cI8662xcIHRrbZy8Y9CO6KB2y0Nkk6Hgl8pIHZ83-GCiXt3BLzclqNHQlWedh0P0bqt9XT0LGyXMjU5xwBsMeL4E7pTq93snYKwsUd0yIYM-JFTQ-xyDqqG4nQkXpdzghPlsCc4QPMDUA1_u_uYTKdPiVlMawLTbMvZBlUR8LBRpKNGU"/>
+</div>
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Minimalist abstract bank logo with strong geometric shapes in blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRSg2VkEGdrj_6638RIFr2tiiPDNkbcNI2aWC3UpJdpAz7wD2klE-wIhDkVm5TpPyPS2fHsRIVaeRxjKtn6OJS1XJ-ZqCP58ruPhN4QTYei_daopAfNSUOwIsfhb28IScAvZWdQ8JlLpzz5NEhj0NvGVjVCkvfxpT6DsN5o6suPiNq5411ZHYl83pXKxNIzeJSVrSsoUkPqFPxDM3FymtL-WKiNFo4PtvX7Uei7vbDmVm2u75XOrEcGGgd248KKfIkjAW7xjMLLIA"/>
+</div>
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Sophisticated consulting firm logo with thin typography in dark navy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtiZYQ3f5If3Q-NBNS2xW-UVRV8-Cg83KPAza2t25YitLlX4oLdPoQW_wEneqfqcUXYcz-LCroVpQ2tv3b2zVjJLB4zjwFOkCjONYMFcWH92umRac73TbYeh1hKidZYQ-rSqmR_L-9pG2TCj3mRzxToEVYIrI96FM9f19bxrUD7a3Fr7xRxx1495aQ7tY2ZJ8UknCNifgCjT_OczXozlrOWLWgCs_mkhb4Pwx23Bu-l7ztUHPC6CUofNiH1JIxByWXa-A6wsO4h0s"/>
+</div>
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Modern energy company logo with fluid lines and professional aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf96t8zVPO3HghV3eAuBlRMZhqTIwYWXkMtrsAH-t5yPqMAoHGB2WOz0QzMzL8qeuixjNaLCAh0no6fRES3j0RjwupSEo4j9jZ54P-_xcWGKPKWrmpey31yxMZNPruUkbf0FxDLGmGzzM5I723op5ZrlIDuyu-wfxF0hwys5o_lCtE-znazMGZdzokR3F5MErJa-0kbHRNYTu0Z4qZ_8_xPvIhwRoyIZXWk7uOmkt0WCV5zgKDThVx8Eo9jwontoHYxpAL2nNxrTE"/>
+</div>
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Tech giant logo silhouette in a clean professional corporate style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKH0sZ-cbx_kjy44pQSSJ14Po8n8nkRWTYWboh2darjb6BqDuzrYQc49RmVRfxQlNwF7XxIbqIYMv9EBMAYZT6kAYfv9rrv7i6TqCXC8LZekmhHKGuG_JaChkjUcTUTrJqqiLF1lY4qyTGMslPsxK0U4qkf10VdZoCcP_5iXC2O6XkGBwhbVWpWEG0dJ90uEB_SJedr4QEGkP51r49o3cpC2t9mNcSD9dHvEQ_de8Bd11TO18-YdHAjwWAVVTtHPWsShsWU46ALNk"/>
+</div>
+<div class="h-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+<img class="h-8 object-contain" data-alt="Leading retail corporation logo with bold sans-serif font" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4kw2QF83836Om3uup5q1ypAuKuGpQOTmmn-9Kexmc92wRvj3B308x6uNWSEcVDP8feh7lewzM50BZbQpoNQP0ywFyb3x_r9Nv34B46jXehHrhaWfLGYNLf-jnAvM_9dxojKy281GSu2uw_vNQpUu5H1x1R95P8KsOQvLMzkjpY9HhH2_3ANUOC9tK3Mxwen9v7KsiLfVnnphaA_T5v_ef7WS-cwguj_qtOExSnSDefjuIwfT1_ernqLCVeqFfoC8oi5nbL35dpuE"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Lead Form Section -->
+<section class="py-xl bg-surface-container-high relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-6 relative z-10">
+<div class="grid lg:grid-cols-2 gap-16 items-start">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-6">Solicita una propuesta personalizada</h2>
+<p class="font-body-lg text-on-surface-variant mb-10 leading-relaxed">
+                            Cuéntanos sobre tu evento o programa de capacitación. Uno de nuestros curadores senior se pondrá en contacto en menos de 24 horas.
+                        </p>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary">flash_on</span>
+<div>
+<h5 class="font-label-md text-primary">Respuesta rápida</h5>
+<p class="text-sm text-on-surface-variant">Sabemos que el tiempo es clave. Recibe opciones disponibles hoy mismo.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary">contract</span>
+<div>
+<h5 class="font-label-md text-primary">Contratación directa</h5>
+<p class="text-sm text-on-surface-variant">Gestión transparente de contratos y facturación regional.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 md:p-10 rounded-2xl raised-card">
+<form class="space-y-6">
+<div class="grid md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface">Empresa</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Ej. TechCorp LATAM" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface">Tipo de Evento</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary">
+<option>Convención Anual</option>
+<option>Capacitación Interna</option>
+<option>Lanzamiento de Producto</option>
+<option>C-Level Summit</option>
+</select>
+</div>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface">Fecha estimada</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface">Presupuesto (USD)</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary">
+<option>Rango Flexible</option>
+<option>5,000 - 10,000</option>
+<option>10,000 - 25,000</option>
+<option>Más de 25,000</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface">Mensaje / Requerimientos</label>
+<textarea class="w-full bg-white border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary" placeholder="Cuéntanos un poco más sobre el objetivo del evento..." rows="4"></textarea>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-label-md hover:bg-primary-container transition-all raised-card">
+                                Enviar solicitud
+                            </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-8 border-t bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 font-['Manrope'] text-sm leading-relaxed">
+<div class="col-span-1 md:col-span-1">
+<div class="text-lg font-bold text-slate-900 dark:text-white mb-6">SpeakerLATAM</div>
+<p class="text-slate-500 dark:text-slate-400 mb-6">Conectando talento con impacto a través de las mejores conferencias de la región.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">alternate_email</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer transition-colors">call</span>
+</div>
+</div>
+<div>
+<h5 class="font-semibold text-slate-900 dark:text-white mb-6">Plataforma</h5>
+<ul class="space-y-4">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Conferencistas</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Para Empresas</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Recursos</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-semibold text-slate-900 dark:text-white mb-6">Legal</h5>
+<ul class="space-y-4">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Aviso Legal</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Privacidad</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Cookies</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors" href="#">Términos de Servicio</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-semibold text-slate-900 dark:text-white mb-6">Contacto</h5>
+<p class="text-slate-500 dark:text-slate-400 mb-4">ventas@speakerlatam.com</p>
+<p class="text-slate-500 dark:text-slate-400">+52 (55) 1234 5678</p>
+<button class="mt-4 w-full border border-slate-200 dark:border-slate-800 py-2 rounded-lg text-slate-900 dark:text-white font-label-md hover:bg-slate-100 transition-colors">
+                    Hablemos
+                </button>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 text-center">
+<p class="text-slate-500 dark:text-slate-400">© 2024 SpeakerLATAM. Conectando talento con impacto.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,243 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Enums\Modality;
+use App\Enums\SpeakerStatus;
+use App\Filament\Resources\SpeakerResource\Pages;
+use App\Models\Category;
+use App\Models\Language;
+use App\Models\Speaker;
+use App\Models\Topic;
+use Filament\Forms;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Actions;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+
+class SpeakerResource extends Resource
+{
+    protected static ?string $model = Speaker::class;
+
+    protected static ?string $modelLabel = 'Conferencista';
+
+    protected static ?string $pluralModelLabel = 'Conferencistas';
+
+    protected static ?int $navigationSort = 1;
+
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-microphone';
+    }
+
+    public static function getNavigationGroup(): string|\UnitEnum|null
+    {
+        return 'Conferencistas';
+    }
+
+    public static function form(Schema $schema): Schema
+    {
+        return $schema
+            ->schema([
+                Forms\Components\Section::make('Informacion personal')
+                    ->schema([
+                        Forms\Components\TextInput::make('first_name')
+                            ->label('Nombre')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('last_name')
+                            ->label('Apellido')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('city')
+                            ->label('Ciudad')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('country')
+                            ->label('Pais')
+                            ->default('Venezuela')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('Telefono')
+                            ->tel()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('linkedin_url')
+                            ->label('LinkedIn')
+                            ->url()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('website_url')
+                            ->label('Sitio web')
+                            ->url()
+                            ->maxLength(255),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Informacion profesional')
+                    ->schema([
+                        Forms\Components\Textarea::make('bio_short')
+                            ->label('Bio corta')
+                            ->maxLength(300)
+                            ->rows(3),
+                        Forms\Components\RichEditor::make('bio_long')
+                            ->label('Bio completa')
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('video_url')
+                            ->label('Video de presentacion')
+                            ->url()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('modality')
+                            ->label('Modalidad')
+                            ->options(Modality::class)
+                            ->required(),
+                        Forms\Components\TextInput::make('fee_range')
+                            ->label('Rango de tarifa')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('experience_years')
+                            ->label('Anos de experiencia')
+                            ->numeric()
+                            ->minValue(0),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Medios')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('photo')
+                            ->label('Foto de perfil')
+                            ->collection('photo')
+                            ->image()
+                            ->imageEditor()
+                            ->imagePreviewHeight('200')
+                            ->responsiveImages()
+                            ->columnSpanFull(),
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->label('Galeria de imagenes')
+                            ->collection('gallery')
+                            ->image()
+                            ->multiple()
+                            ->reorderable()
+                            ->imagePreviewHeight('150')
+                            ->panelLayout('grid')
+                            ->columnSpanFull(),
+                    ]),
+
+                Forms\Components\Section::make('Categorias, temas e idiomas')
+                    ->schema([
+                        Forms\Components\Select::make('categories')
+                            ->label('Categorias')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                        Forms\Components\Select::make('topics')
+                            ->label('Temas')
+                            ->relationship('topics', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                        Forms\Components\Select::make('languages')
+                            ->label('Idiomas')
+                            ->relationship('languages', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Estado y visibilidad')
+                    ->schema([
+                        Forms\Components\Select::make('user_id')
+                            ->label('Usuario')
+                            ->relationship('user', 'name')
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Select::make('status')
+                            ->label('Estado')
+                            ->options(SpeakerStatus::class)
+                            ->default(SpeakerStatus::Pending)
+                            ->required(),
+                        Forms\Components\Toggle::make('is_featured')
+                            ->label('Destacado'),
+                        Forms\Components\Toggle::make('is_verified')
+                            ->label('Verificado'),
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('Fecha de publicacion'),
+                    ])->columns(2),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label('Nombre')
+                    ->searchable(['first_name', 'last_name'])
+                    ->sortable(['first_name']),
+                Tables\Columns\TextColumn::make('city')
+                    ->label('Ciudad')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('country')
+                    ->label('Pais')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Estado')
+                    ->badge(),
+                Tables\Columns\ToggleColumn::make('is_featured')
+                    ->label('Destacado'),
+                Tables\Columns\ToggleColumn::make('is_verified')
+                    ->label('Verificado'),
+                Tables\Columns\TextColumn::make('activeMembership.status')
+                    ->label('Membresia')
+                    ->badge()
+                    ->default('Sin membresia'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
+                    ->dateTime('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('Estado')
+                    ->options(SpeakerStatus::class),
+                Tables\Filters\SelectFilter::make('country')
+                    ->label('Pais')
+                    ->options(fn () => Speaker::query()->distinct()->pluck('country', 'country')->toArray()),
+                Tables\Filters\TernaryFilter::make('is_featured')
+                    ->label('Destacado'),
+                Tables\Filters\TernaryFilter::make('is_verified')
+                    ->label('Verificado'),
+                Tables\Filters\SelectFilter::make('categories')
+                    ->label('Categoria')
+                    ->relationship('categories', 'name')
+                    ->multiple()
+                    ->preload(),
+            ])
+            ->actions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->defaultSort('created_at', 'desc');
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListSpeakers::route('/'),
+            'create' => Pages\CreateSpeaker::route('/create'),
+            'edit' => Pages\EditSpeaker::route('/{record}/edit'),
+        ];
+    }
+}

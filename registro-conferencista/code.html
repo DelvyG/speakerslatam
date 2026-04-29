@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e5e2e1",
+                    "on-secondary-container": "#640f00",
+                    "tertiary-fixed": "#e5e2dd",
+                    "outline": "#74777e",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-container": "#fd6a49",
+                    "inverse-on-surface": "#f3f0ef",
+                    "on-tertiary-fixed": "#1c1c19",
+                    "on-secondary-fixed": "#3d0600",
+                    "surface-container-high": "#eae7e7",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed": "#ffdad2",
+                    "secondary": "#ae3115",
+                    "tertiary": "#0e0f0c",
+                    "on-secondary-fixed-variant": "#8c1900",
+                    "on-primary-fixed-variant": "#314865",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#313030",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#b0c8eb",
+                    "tertiary-fixed-dim": "#c8c6c2",
+                    "primary-fixed-dim": "#b0c8eb",
+                    "outline-variant": "#c4c6ce",
+                    "tertiary-container": "#242421",
+                    "on-tertiary-container": "#8c8b87",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "primary-container": "#0a2540",
+                    "surface-container": "#f0eded",
+                    "on-surface": "#1c1b1b",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#ffb4a3",
+                    "surface-bright": "#fcf9f8",
+                    "on-surface-variant": "#43474d",
+                    "primary": "#000f22",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#001c37",
+                    "background": "#fcf9f8",
+                    "on-primary-container": "#768dad",
+                    "surface-tint": "#49607e",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface": "#fcf9f8",
+                    "surface-container-highest": "#e5e2e1",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary-fixed-variant": "#474743"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "xl": "64px",
+                    "sm": "16px",
+                    "md": "24px",
+                    "base": "4px",
+                    "xs": "8px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .step-active { color: #000f22; border-color: #000f22; }
+        .step-inactive { color: #74777e; border-color: #c4c6ce; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-slate-50 font-['Manrope']">
+                SpeakerLATAM
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-['Manrope'] text-sm font-medium tracking-tight" href="#">Inicio</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-['Manrope'] text-sm font-medium tracking-tight" href="#">Conferencistas</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-['Manrope'] text-sm font-medium tracking-tight" href="#">Para Empresas</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-['Manrope'] text-sm font-medium tracking-tight" href="#">Recursos</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors font-['Manrope'] text-sm font-medium tracking-tight" href="#">Comunidad</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="px-5 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95 text-slate-900 dark:text-slate-50">Iniciar Sesión</button>
+<button class="px-5 py-2.5 rounded-lg font-['Manrope'] text-sm font-semibold transition-all duration-200 hover:opacity-90 active:scale-95 bg-primary text-on-primary">Registrarme</button>
+</div>
+</div>
+</nav>
+<main class="pt-20 min-h-screen flex flex-col md:flex-row">
+<!-- Left Side: Value Props -->
+<section class="w-full md:w-5/12 bg-primary-container text-on-primary p-8 md:p-16 lg:p-24 flex flex-col justify-center relative overflow-hidden">
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary-container opacity-10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-primary opacity-20 rounded-full -ml-48 -mb-48 blur-3xl"></div>
+<div class="relative z-10">
+<h1 class="font-display-lg text-display-lg text-white mb-8 leading-tight">Únete a la red más grande de LATAM</h1>
+<p class="font-body-lg text-body-lg text-on-primary-container mb-12 max-w-md">Comparte tu conocimiento, inspira a miles y conecta con las empresas líderes de la región.</p>
+<div class="space-y-10">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-container" data-icon="groups">groups</span>
+</div>
+<div>
+<h3 class="font-headline-md text-white text-lg mb-1">Audiencia Premium</h3>
+<p class="text-on-primary-container text-sm leading-relaxed">Acceso directo a directivos y tomadores de decisiones de las principales compañías en Latinoamérica.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-container" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<h3 class="font-headline-md text-white text-lg mb-1">Crecimiento Profesional</h3>
+<p class="text-on-primary-container text-sm leading-relaxed">Posiciona tu marca personal como un referente en tu industria a nivel regional.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-container" data-icon="payments">payments</span>
+</div>
+<div>
+<h3 class="font-headline-md text-white text-lg mb-1">Gestión Sin Fricción</h3>
+<p class="text-on-primary-container text-sm leading-relaxed">Nosotros nos encargamos de la logística y los pagos para que tú te enfoques en inspirar.</p>
+</div>
+</div>
+</div>
+<!-- Trust Signals -->
+<div class="mt-20">
+<p class="font-label-sm text-on-primary-container uppercase tracking-widest mb-6">Nuestros conferencistas han impactado en</p>
+<div class="flex flex-wrap gap-8 opacity-60 grayscale brightness-200">
+<img alt="Google" class="h-6 w-auto" data-alt="Official Google logo in white on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOsTZ6fNkfRK64NwTeoOfXbQlJdea-_lSbN7iuQsXtX9hjzyascMCydsyl3g8JSJiLVvWiiWcINjSIeXU98WOydis6MjxUaOi4o9YOTprAYZ9DLteixlfvcYrIZyqaKxanCtr9JG3_jKTztQAZQ4AdgS02l-3ai_xhFMgkjmD98cPTXv04hGBSakHPWTrbvdgeprf29Q6bba0Ep0cEdE-MYHGKqzY54TULli8UdUyxVSfidhM8JkiUflYy1Me5iHTzvrajy4eG67s"/>
+<img alt="Coca-Cola" class="h-6 w-auto" data-alt="Official Coca-Cola script logo in white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMCuHWTeKCNTeFzwixSu4IrA1kWGssIcdQ_40_ZooPvEsYdS5BDE7xnoNnUM-YeQ8hJxRLEDVbc3EI000Figl_vZNdNVPxRscud_d21FjIKJLcFWS59_COj6T6fgloZzxRykz-taz1KHCOSO7zZwg4ZHTEaaTofmIVKQNVSTK-cbe2ZIAgnMuyF_az9_mIETt1clhhiRk7bzxVNVVPO-R_lrDXRqW_9k6edgHu8XEmZ3poiZe5E90EHJHEiGNlmrQz4QkOFK5uIug"/>
+<img alt="IBM" class="h-6 w-auto" data-alt="Official IBM striped logo in white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwcx8MEMJYXrlKuzdlBpxCCVwkNYozeuzAZjK4RTcC9pAhuQhMQ0F9VHddIoMsrPbV-Eu5Ls4JavFvKest9EuixbztDwMhPsrVBL9NdsN5pD7LK64rW91LonA-spGcbt2scnh_p6mwftszgxaM4ivx6kCqu3ezp4CZCgzq7mRy3ztnysX-2Dl1yapflz0nGsikxGfTHQ5hnPte5hYqho1_kPRIcDnbrKzVhXa3b7S2ocODFeFbJ8cCGKUSfhj7vT2ut98sz76vnoE"/>
+<img alt="Mercado Libre" class="h-8 w-auto" data-alt="Official Mercado Libre handshake logo in white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBgOdB2yp2_2y9_rR-o7wk0i7KtWdpNzoaDFHVMP6QvfWTsBIQVMdUm8-ttOv8-dbOo6aq00Qy6ScG3KFX4VOeZWThBiGjQGHG1pGpzIt0OUyFIP4cdnyyxMHnyQndVc8Ev4w5tMSusX4NqFgm60WWK1HhjPCdsWulcWFl6KsyNslzpL2-X1C2H7j1Xx9zKHjJapbPcRAbtIAFGChxDYQ-xysVRlEzpjjNFV_FkaWtoSLuQS83dEsDIF8KyVkZQnA7X4Lb-TMpkLE"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Side: Multi-step Form -->
+<section class="w-full md:w-7/12 bg-white px-8 md:px-16 lg:px-24 py-16 flex flex-col items-center">
+<div class="w-full max-w-2xl">
+<!-- Multi-step indicator -->
+<div class="flex items-center justify-between mb-16 relative">
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container -z-10 -translate-y-1/2"></div>
+<div class="flex flex-col items-center gap-2 bg-white px-2">
+<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-sm bg-primary text-white border-primary">1</div>
+<span class="font-label-sm text-primary">Datos Personales</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-white px-2">
+<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-sm border-outline text-outline">2</div>
+<span class="font-label-sm text-outline">Expertise</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-white px-2">
+<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-sm border-outline text-outline">3</div>
+<span class="font-label-sm text-outline">Demo Video</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-white px-2">
+<div class="w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-sm border-outline text-outline">4</div>
+<span class="font-label-sm text-outline">Tarifas</span>
+</div>
+</div>
+<div class="mb-10">
+<h2 class="font-headline-lg text-on-background mb-2">Comencemos con lo básico</h2>
+<p class="text-on-surface-variant font-body-md">Queremos conocerte mejor. Esta información será tu carta de presentación ante las empresas.</p>
+</div>
+<!-- Form -->
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Nombre Completo</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Ej. Ana García" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Especialidad Principal</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Ej. Liderazgo e Innovación" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Biografía Corta (Pitch)</label>
+<textarea class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none" placeholder="Cuéntanos brevemente tu trayectoria y qué te hace único como conferencista..." rows="4"></textarea>
+<p class="text-xs text-outline text-right">0 / 200 palabras</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Enlace a Demo Reel / Video</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm" data-icon="link">link</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="https://youtube.com/..." type="url"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant block">Rango de Honorarios (USD)</label>
+<select class="w-full px-4 py-3 rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-white">
+<option>Seleccionar rango</option>
+<option>$1,000 - $3,000</option>
+<option>$3,000 - $7,000</option>
+<option>$7,000 - $15,000</option>
+<option>$15,000+</option>
+</select>
+</div>
+</div>
+<div class="pt-8 flex items-center justify-between border-t border-surface-container mt-12">
+<button class="px-6 py-3 font-label-md text-outline hover:text-primary transition-colors" type="button">Guardar borrador</button>
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-label-md shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all flex items-center gap-2" type="submit">
+                            Continuar
+                            <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Profile Preview Card (Minimalist Lean) -->
+<div class="mt-16 p-6 rounded-2xl bg-surface-container-low border border-surface-container-high flex gap-6 items-center">
+<div class="w-20 h-20 rounded-full bg-surface-variant shrink-0 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl" data-icon="account_circle">account_circle</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-background">Tu perfil se verá increíble</h4>
+<p class="text-sm text-on-surface-variant">Estamos listos para mostrar tu talento a más de 500 empresas activas en SpeakerLATAM.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full pt-16 pb-8 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-2">
+<div class="text-lg font-bold text-slate-900 dark:text-white mb-4">SpeakerLATAM</div>
+<p class="text-slate-500 dark:text-slate-400 font-['Manrope'] text-sm leading-relaxed max-w-sm">
+                    © 2024 SpeakerLATAM. Conectando talento con impacto. La plataforma líder para conferencistas y empresas en toda la región.
+                </p>
+</div>
+<div>
+<h5 class="font-semibold text-slate-900 dark:text-white mb-4">Plataforma</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Aviso Legal</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Privacidad</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-semibold text-slate-900 dark:text-white mb-4">Soporte</h5>
+<ul class="space-y-2">
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Cookies</a></li>
+<li><a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors text-sm" href="#">Términos de Servicio</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<div class="flex space-x-6">
+<a class="text-slate-400 hover:text-slate-900" href="#"><span class="material-symbols-outlined" data-icon="share">share</span></a>
+<a class="text-slate-400 hover:text-slate-900" href="#"><span class="material-symbols-outlined" data-icon="mail">mail</span></a>
+</div>
+<p class="text-xs text-slate-400">Hecho con pasión en América Latina.</p>
+</div>
+</footer>
+</body></html>
