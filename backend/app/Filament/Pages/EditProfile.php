@@ -3,16 +3,18 @@
 namespace App\Filament\Pages;
 
 use Filament\Forms;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
-class EditProfile extends Page
+class EditProfile extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected string $view = 'filament.pages.edit-profile';
 
     protected static ?string $title = 'Mi Perfil';
@@ -26,26 +28,69 @@ class EditProfile extends Page
 
     public function mount(): void
     {
-        $user = Auth::user();
-        $this->profileData = [
-            'name' => $user->name,
-            'email' => $user->email,
-        ];
-        $this->passwordData = [
-            'current_password' => '',
-            'new_password' => '',
-            'new_password_confirmation' => '',
+        $this->profileForm->fill([
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
+        ]);
+
+        $this->passwordForm->fill();
+    }
+
+    public function profileForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label('Nombre completo')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->label('Correo electronico')
+                    ->email()
+                    ->required()
+                    ->unique('users', 'email', ignorable: Auth::user()),
+            ])
+            ->columns(2)
+            ->statePath('profileData');
+    }
+
+    public function passwordForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('current_password')
+                    ->label('Contrasena actual')
+                    ->password()
+                    ->revealable()
+                    ->required(),
+                Forms\Components\TextInput::make('new_password')
+                    ->label('Nueva contrasena')
+                    ->password()
+                    ->revealable()
+                    ->required()
+                    ->minLength(8),
+                Forms\Components\TextInput::make('new_password_confirmation')
+                    ->label('Confirmar nueva contrasena')
+                    ->password()
+                    ->revealable()
+                    ->required()
+                    ->same('new_password'),
+            ])
+            ->columns(3)
+            ->statePath('passwordData');
+    }
+
+    protected function getForms(): array
+    {
+        return [
+            'profileForm',
+            'passwordForm',
         ];
     }
 
     public function updateProfile(): void
     {
-        $data = $this->profileData;
-
-        $this->validate([
-            'profileData.name' => ['required', 'string', 'max:255'],
-            'profileData.email' => ['required', 'email', 'unique:users,email,' . Auth::id()],
-        ]);
+        $data = $this->profileForm->getState();
 
         $user = Auth::user();
         $user->name = $data['name'];
@@ -53,42 +98,31 @@ class EditProfile extends Page
         $user->save();
 
         Notification::make()
-            ->title('Perfil actualizado')
+            ->title('Perfil actualizado exitosamente')
             ->success()
             ->send();
     }
 
     public function updatePassword(): void
     {
-        $data = $this->passwordData;
+        $data = $this->passwordForm->getState();
 
-        $this->validate([
-            'passwordData.current_password' => ['required'],
-            'passwordData.new_password' => ['required', 'min:8', 'confirmed'],
-        ], [], [
-            'passwordData.current_password' => 'contrasena actual',
-            'passwordData.new_password' => 'nueva contrasena',
-            'passwordData.new_password_confirmation' => 'confirmacion',
-        ]);
-
-        $user = Auth::user();
-
-        if (!Hash::check($data['current_password'], $user->password)) {
-            $this->addError('passwordData.current_password', 'La contrasena actual es incorrecta.');
+        if (!Hash::check($data['current_password'], Auth::user()->password)) {
+            Notification::make()
+                ->title('La contrasena actual es incorrecta')
+                ->danger()
+                ->send();
             return;
         }
 
+        $user = Auth::user();
         $user->password = $data['new_password'];
         $user->save();
 
-        $this->passwordData = [
-            'current_password' => '',
-            'new_password' => '',
-            'new_password_confirmation' => '',
-        ];
+        $this->passwordForm->fill();
 
         Notification::make()
-            ->title('Contrasena actualizada')
+            ->title('Contrasena actualizada exitosamente')
             ->success()
             ->send();
     }
