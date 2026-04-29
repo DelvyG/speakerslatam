@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CompanyLeadController;
 use App\Http\Controllers\Api\V1\ContactMessageController;
 use App\Http\Controllers\Api\V1\LegalPageController;
+use App\Http\Controllers\Api\V1\MediaItemController;
 use App\Http\Controllers\Api\V1\SiteSettingController;
 use App\Http\Controllers\Api\V1\NewsletterController;
 use App\Http\Controllers\Api\V1\PublicAddonController;
@@ -52,6 +53,9 @@ Route::prefix('v1')->group(function () {
 
     // Public - Site settings
     Route::get('settings', [SiteSettingController::class, 'index']);
+
+    // Public - Media library
+    Route::get('media', [MediaItemController::class, 'index']);
 
     // Public - Newsletter
     Route::post('newsletter/subscribe', [NewsletterController::class, 'store']);

@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\SiteSetting;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -41,6 +42,15 @@ class SiteSettings extends Page implements HasForms
     public function mount(): void
     {
         $settings = SiteSetting::pluck('value', 'key')->toArray();
+
+        // Convert stored paths to array format for FileUpload
+        foreach (['logo_url', 'logo_login_url', 'favicon_url', 'seo_og_image'] as $key) {
+            if (!empty($settings[$key])) {
+                $filename = basename($settings[$key]);
+                $settings[$key] = [$filename];
+            }
+        }
+
         $this->form->fill($settings);
     }
 
@@ -58,17 +68,30 @@ class SiteSettings extends Page implements HasForms
                         TextInput::make('site_tagline')
                             ->label('Eslogan / Subtitulo')
                             ->required(),
-                        TextInput::make('logo_url')
-                            ->label('Logo principal (URL)')
-                            ->helperText('Logo horizontal para el header. Ruta relativa, ej: /branding/logo-horizontal.png')
-                            ->required(),
-                        TextInput::make('logo_login_url')
-                            ->label('Logo login (URL)')
-                            ->helperText('Logo grande para pantallas de login/registro.'),
-                        TextInput::make('favicon_url')
-                            ->label('Favicon (URL)')
-                            ->helperText('Icono para la pestana del navegador.')
-                            ->required(),
+                        FileUpload::make('logo_url')
+                            ->label('Logo principal')
+                            ->helperText('Logo horizontal para el header del sitio.')
+                            ->image()
+                            ->imagePreviewHeight('80')
+                            ->directory('branding')
+                            ->disk('public')
+                            ->visibility('public'),
+                        FileUpload::make('logo_login_url')
+                            ->label('Logo para login')
+                            ->helperText('Logo grande para pantallas de login/registro.')
+                            ->image()
+                            ->imagePreviewHeight('100')
+                            ->directory('branding')
+                            ->disk('public')
+                            ->visibility('public'),
+                        FileUpload::make('favicon_url')
+                            ->label('Favicon')
+                            ->helperText('Icono para la pestana del navegador (PNG o ICO, recomendado 512x512).')
+                            ->image()
+                            ->imagePreviewHeight('64')
+                            ->directory('branding')
+                            ->disk('public')
+                            ->visibility('public'),
                     ])->columns(2),
 
                 Section::make('SEO')
@@ -90,9 +113,14 @@ class SiteSettings extends Page implements HasForms
                             ->label('Palabras clave')
                             ->helperText('Separadas por coma.')
                             ->rows(2),
-                        TextInput::make('seo_og_image')
-                            ->label('Imagen para redes sociales (OG Image URL)')
-                            ->helperText('Imagen que se muestra al compartir en redes sociales.'),
+                        FileUpload::make('seo_og_image')
+                            ->label('Imagen para redes sociales (OG Image)')
+                            ->helperText('Imagen que se muestra al compartir en Facebook, Twitter, LinkedIn, etc.')
+                            ->image()
+                            ->imagePreviewHeight('100')
+                            ->directory('branding')
+                            ->disk('public')
+                            ->visibility('public'),
                     ])->columns(2),
 
                 Section::make('Codigo personalizado')
@@ -142,6 +170,11 @@ class SiteSettings extends Page implements HasForms
         $data = $this->form->getState();
 
         foreach ($data as $key => $value) {
+            // FileUpload returns arrays - convert to storage path
+            if (is_array($value)) {
+                $value = !empty($value) ? '/storage/' . array_values($value)[0] : '';
+            }
+
             SiteSetting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value ?? '']
