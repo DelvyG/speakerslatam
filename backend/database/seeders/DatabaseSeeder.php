@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LanguageSeeder::class,
             AddonSeeder::class,
+            SpeakerSeeder::class,
         ]);
     }
 }
