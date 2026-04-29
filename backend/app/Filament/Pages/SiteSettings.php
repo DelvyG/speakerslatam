@@ -22,7 +22,7 @@ class SiteSettings extends Page implements HasForms
 
     protected static ?int $navigationSort = 99;
 
-    protected static string $view = 'filament.pages.site-settings';
+    protected string $view = 'filament.pages.site-settings';
 
     public static function getNavigationIcon(): string|\BackedEnum|null
     {
