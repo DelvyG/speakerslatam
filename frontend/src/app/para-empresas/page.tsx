@@ -86,7 +86,7 @@ export default function ParaEmpresasPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full border-2 border-white bg-transparent text-white hover:bg-white/10 sm:w-auto cursor-pointer h-12 px-8"
+                  className="w-full border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary sm:w-auto cursor-pointer h-12 px-8"
                 >
                   <CalendarDays className="size-4" />
                   Agendar llamada con un asesor
