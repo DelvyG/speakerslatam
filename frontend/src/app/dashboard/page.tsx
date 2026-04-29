@@ -36,10 +36,10 @@ export default function DashboardPage() {
   }
 
   const isProfileComplete =
-    speaker?.bio_short &&
-    speaker?.city &&
-    speaker?.categories?.length > 0 &&
-    speaker?.languages?.length > 0;
+    !!speaker?.bio_short &&
+    !!speaker?.city &&
+    (speaker?.categories?.length ?? 0) > 0 &&
+    (speaker?.languages?.length ?? 0) > 0;
 
   return (
     <div className="space-y-6">
