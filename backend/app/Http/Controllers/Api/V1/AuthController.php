@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterSpeakerRequest;
 use App\Http\Resources\AuthUserResource;
+use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,19 @@ class AuthController extends Controller
         ]);
 
         $user->assignRole('speaker');
+
+        // Auto-create speaker profile
+        $nameParts = explode(' ', $request->validated('name'), 2);
+        Speaker::create([
+            'user_id' => $user->id,
+            'first_name' => $nameParts[0],
+            'last_name' => $nameParts[1] ?? '',
+            'bio_short' => '',
+            'city' => '',
+            'country' => 'Venezuela',
+            'modality' => 'presencial',
+            'status' => 'pending',
+        ]);
 
         $token = $user->createToken('auth-token')->plainTextToken;
 

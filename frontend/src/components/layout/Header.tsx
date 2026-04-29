@@ -14,6 +14,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { useSiteSettings, getBackendUrl } from "@/lib/site-settings";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV_LINKS = [
   { href: "/directorio", label: "Directorio" },
@@ -25,6 +26,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const settings = useSiteSettings();
   const logoUrl = getBackendUrl(settings.logo_url);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -77,17 +79,27 @@ export default function Header() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link
-            href="/login"
-            className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
-          >
-            Iniciar Sesion
-          </Link>
-          <Link href="/registro">
-            <Button className="bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
-              Registrate
-            </Button>
-          </Link>
+          {user ? (
+            <Link href="/dashboard">
+              <Button className="bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
+                Mi Panel
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+              >
+                Iniciar Sesion
+              </Link>
+              <Link href="/registro">
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90 cursor-pointer">
+                  Registrate
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -127,17 +139,28 @@ export default function Header() {
                   </SheetClose>
                 ))}
                 <div className="my-2 h-px bg-border" />
-                <SheetClose render={<Link href="/login" />}>
-                  <span className="block rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground">
-                    Iniciar Sesion
-                  </span>
-                </SheetClose>
-                <Link
-                  href="/registro"
-                  className="mt-2 block w-full rounded-md bg-accent px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-accent/90"
-                >
-                  Registrate
-                </Link>
+                {user ? (
+                  <Link
+                    href="/dashboard"
+                    className="mt-2 block w-full rounded-md bg-accent px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                  >
+                    Mi Panel
+                  </Link>
+                ) : (
+                  <>
+                    <SheetClose render={<Link href="/login" />}>
+                      <span className="block rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground">
+                        Iniciar Sesion
+                      </span>
+                    </SheetClose>
+                    <Link
+                      href="/registro"
+                      className="mt-2 block w-full rounded-md bg-accent px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-accent/90"
+                    >
+                      Registrate
+                    </Link>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>

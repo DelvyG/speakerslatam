@@ -81,7 +81,7 @@ export default function RegistroPage() {
     try {
       const { token } = await registerUser(values);
       setToken(token);
-      router.push('/directorio');
+      router.push('/dashboard/perfil');
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'Error al crear la cuenta. Intenta de nuevo.';

@@ -8,6 +8,7 @@ import SiteHead from "@/components/SiteHead";
 import { BodyStartCode, BodyEndCode } from "@/components/CodeInjection";
 import { QueryProvider } from "@/lib/providers";
 import { SiteSettingsProvider } from "@/lib/site-settings";
+import { AuthProvider } from "@/lib/auth-context";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -49,15 +50,17 @@ export default function RootLayout({
     <html lang="es" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <QueryProvider>
-          <SiteSettingsProvider>
-            <SiteHead />
-            <BodyStartCode />
-            <AnalyticsTracker />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <BodyEndCode />
-          </SiteSettingsProvider>
+          <AuthProvider>
+            <SiteSettingsProvider>
+              <SiteHead />
+              <BodyStartCode />
+              <AnalyticsTracker />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <BodyEndCode />
+            </SiteSettingsProvider>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

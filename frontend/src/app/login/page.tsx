@@ -42,7 +42,7 @@ export default function LoginPage() {
     try {
       const { token } = await login(values);
       setToken(token);
-      router.push('/directorio');
+      router.push('/dashboard');
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : 'Error al iniciar sesion. Intenta de nuevo.';
