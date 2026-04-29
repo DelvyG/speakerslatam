@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AnalyticsController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CompanyLeadController;
+use App\Http\Controllers\Api\V1\ContactMessageController;
 use App\Http\Controllers\Api\V1\NewsletterController;
 use App\Http\Controllers\Api\V1\PublicAddonController;
 use App\Http\Controllers\Api\V1\PublicCategoryController;
@@ -40,6 +41,9 @@ Route::prefix('v1')->group(function () {
 
     // Public - Company Leads
     Route::post('company-leads', [CompanyLeadController::class, 'store']);
+
+    // Public - Contact
+    Route::post('contact', [ContactMessageController::class, 'store']);
 
     // Public - Newsletter
     Route::post('newsletter/subscribe', [NewsletterController::class, 'store']);

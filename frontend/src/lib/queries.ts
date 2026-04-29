@@ -8,6 +8,7 @@ import type {
   Addon,
   PublicStats,
   CompanyLeadForm,
+  ContactForm,
   NewsletterForm,
   LoginForm,
   RegisterForm,
@@ -92,6 +93,16 @@ export async function submitCompanyLead(
 ): Promise<{ message: string }> {
   const { data } = await api.post<{ message: string }>(
     '/company-leads',
+    formData,
+  );
+  return data;
+}
+
+export async function submitContactMessage(
+  formData: ContactForm,
+): Promise<{ message: string }> {
+  const { data } = await api.post<{ message: string }>(
+    '/contact',
     formData,
   );
   return data;

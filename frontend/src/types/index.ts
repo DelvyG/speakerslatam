@@ -102,6 +102,13 @@ export interface CompanyLeadForm {
   message?: string;
 }
 
+export interface ContactForm {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
 export interface NewsletterForm {
   email: string;
   type?: 'general' | 'speaker' | 'empresa';
