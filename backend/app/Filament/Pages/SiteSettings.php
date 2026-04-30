@@ -39,7 +39,7 @@ class SiteSettings extends Page implements HasForms
 
     public ?array $data = [];
 
-    private const FILE_KEYS = ['logo_url', 'logo_login_url', 'favicon_url', 'seo_og_image'];
+    private const FILE_KEYS = ['logo_url', 'logo_login_url', 'favicon_url', 'seo_og_image', 'hero_image_url'];
 
     public function mount(): void
     {
@@ -96,6 +96,34 @@ class SiteSettings extends Page implements HasForms
                             ->directory('branding')
                             ->disk('public')
                             ->visibility('public'),
+                    ])->columns(2),
+
+                Section::make('Hero del Home')
+                    ->description('Imagen de fondo del hero en la pagina principal.')
+                    ->icon('heroicon-o-photo')
+                    ->schema([
+                        FileUpload::make('hero_image_url')
+                            ->label('Imagen de fondo')
+                            ->helperText('Imagen para el hero del home. Recomendado: 1920x800px.')
+                            ->image()
+                            ->imagePreviewHeight('150')
+                            ->directory('branding')
+                            ->disk('public')
+                            ->visibility('public'),
+                        TextInput::make('hero_image_opacity')
+                            ->label('Opacidad (0-100)')
+                            ->helperText('0 = invisible, 100 = completamente visible. Recomendado: 10-25 para que el texto sea legible.')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(100)
+                            ->default(15),
+                        TextInput::make('hero_image_position')
+                            ->label('Posicion vertical (0-100)')
+                            ->helperText('0 = arriba, 50 = centro, 100 = abajo.')
+                            ->numeric()
+                            ->minValue(0)
+                            ->maxValue(100)
+                            ->default(50),
                     ])->columns(2),
 
                 Section::make('SEO')

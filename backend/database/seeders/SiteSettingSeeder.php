@@ -23,6 +23,11 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'seo_keywords', 'value' => 'conferencistas, speakers, America Latina, conferencias, eventos, panelistas, keynote, capacitacion, LATAM', 'type' => 'textarea', 'group' => 'seo'],
             ['key' => 'seo_og_image', 'value' => '/branding/logo-completo.png', 'type' => 'text', 'group' => 'seo'],
 
+            // Hero home
+            ['key' => 'hero_image_url', 'value' => '/branding/hero-home.jpg', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_image_opacity', 'value' => '15', 'type' => 'text', 'group' => 'hero'],
+            ['key' => 'hero_image_position', 'value' => '50', 'type' => 'text', 'group' => 'hero'],
+
             // Code injection
             ['key' => 'code_head', 'value' => '', 'type' => 'code', 'group' => 'code'],
             ['key' => 'code_body_start', 'value' => '', 'type' => 'code', 'group' => 'code'],
