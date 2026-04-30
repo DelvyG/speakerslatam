@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Image from 'next/image';
+import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -44,9 +45,14 @@ export default function LoginPage() {
       setToken(token);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : 'Error al iniciar sesion. Intenta de nuevo.';
-      setServerError(message);
+      if (axios.isAxiosError(err) && err.response?.data?.errors) {
+        const errors = err.response.data.errors;
+        setServerError(Object.values(errors).flat().join(' '));
+      } else if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setServerError(err.response.data.message);
+      } else {
+        setServerError('Error al iniciar sesion. Intenta de nuevo.');
+      }
     }
   }
 

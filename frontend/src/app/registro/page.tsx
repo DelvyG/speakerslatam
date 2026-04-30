@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Image from 'next/image';
+import axios from 'axios';
 import { Eye, EyeOff, Users, TrendingUp, Zap, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -83,9 +84,15 @@ export default function RegistroPage() {
       setToken(token);
       router.push('/dashboard/perfil');
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : 'Error al crear la cuenta. Intenta de nuevo.';
-      setServerError(message);
+      if (axios.isAxiosError(err) && err.response?.data?.errors) {
+        const errors = err.response.data.errors;
+        const messages = Object.values(errors).flat().join(' ');
+        setServerError(messages);
+      } else if (axios.isAxiosError(err) && err.response?.data?.message) {
+        setServerError(err.response.data.message);
+      } else {
+        setServerError('Error al crear la cuenta. Intenta de nuevo.');
+      }
     }
   }
 
@@ -195,6 +202,14 @@ export default function RegistroPage() {
           {serverError && (
             <div className="mt-4 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
               {serverError}
+              {serverError.toLowerCase().includes('correo') && (
+                <p className="mt-2">
+                  Ya tienes cuenta?{' '}
+                  <Link href="/login" className="font-semibold underline">
+                    Inicia sesion aqui
+                  </Link>
+                </p>
+              )}
             </div>
           )}
 
