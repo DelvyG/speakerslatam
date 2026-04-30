@@ -84,6 +84,8 @@ Route::prefix('v1')->group(function () {
             Route::get('profile', [SpeakerProfileController::class, 'show']);
             Route::put('profile', [SpeakerProfileController::class, 'update']);
             Route::post('profile/photo', [SpeakerProfileController::class, 'uploadPhoto']);
+            Route::post('profile/cover', [SpeakerProfileController::class, 'uploadCover']);
+            Route::put('profile/cover-position', [SpeakerProfileController::class, 'updateCoverPosition']);
             Route::post('profile/gallery', [SpeakerProfileController::class, 'uploadGallery']);
             Route::get('membership', [SpeakerMembershipController::class, 'show']);
             Route::get('addons', [SpeakerMembershipController::class, 'addons']);

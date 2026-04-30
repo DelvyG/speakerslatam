@@ -19,6 +19,8 @@ export interface Speaker {
   is_featured: boolean;
   is_verified: boolean;
   photo_url: string;
+  cover_url?: string;
+  cover_position?: number;
   categories: CategoryCompact[];
   topics: TopicCompact[];
   languages?: Language[];

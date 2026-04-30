@@ -35,6 +35,7 @@ class Speaker extends Model implements HasMedia
         'modality',
         'fee_range',
         'experience_years',
+        'cover_position',
         'is_featured',
         'is_verified',
         'status',
@@ -67,6 +68,7 @@ class Speaker extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('photo')->singleFile();
+        $this->addMediaCollection('cover')->singleFile();
         $this->addMediaCollection('gallery');
     }
 

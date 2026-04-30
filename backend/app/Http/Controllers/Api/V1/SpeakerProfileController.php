@@ -80,6 +80,56 @@ class SpeakerProfileController extends Controller
         ]);
     }
 
+    public function uploadCover(Request $request): JsonResponse
+    {
+        $request->validate([
+            'cover' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:5120'],
+            'cover_position' => ['nullable', 'integer', 'min:0', 'max:100'],
+        ], [
+            'cover.required' => 'La imagen de portada es obligatoria.',
+            'cover.image' => 'El archivo debe ser una imagen.',
+            'cover.mimes' => 'La imagen debe ser JPEG, PNG o WebP.',
+            'cover.max' => 'La imagen no debe superar los 5MB.',
+        ]);
+
+        $speaker = $request->user()->speaker;
+
+        if (! $speaker) {
+            throw new NotFoundHttpException('No tienes un perfil de conferencista.');
+        }
+
+        $speaker->clearMediaCollection('cover');
+        $speaker->addMediaFromRequest('cover')->toMediaCollection('cover');
+
+        if ($request->has('cover_position')) {
+            $speaker->update(['cover_position' => $request->cover_position]);
+        }
+
+        return response()->json([
+            'message' => 'Portada actualizada exitosamente.',
+            'cover_url' => $speaker->getFirstMediaUrl('cover'),
+        ]);
+    }
+
+    public function updateCoverPosition(Request $request): JsonResponse
+    {
+        $request->validate([
+            'cover_position' => ['required', 'integer', 'min:0', 'max:100'],
+        ]);
+
+        $speaker = $request->user()->speaker;
+
+        if (! $speaker) {
+            throw new NotFoundHttpException('No tienes un perfil de conferencista.');
+        }
+
+        $speaker->update(['cover_position' => $request->cover_position]);
+
+        return response()->json([
+            'message' => 'Posicion actualizada.',
+        ]);
+    }
+
     public function uploadGallery(Request $request): JsonResponse
     {
         $request->validate([

@@ -32,6 +32,8 @@ class SpeakerDetailResource extends JsonResource
             'website_url' => $this->website_url,
             'video_url' => $this->video_url,
             'photo_url' => $this->getFirstMediaUrl('photo'),
+            'cover_url' => $this->getFirstMediaUrl('cover'),
+            'cover_position' => $this->cover_position ?? 50,
             'gallery_urls' => $this->getMedia('gallery')->map(fn ($media) => $media->getUrl()),
             'languages' => $this->whenLoaded('languages', fn () =>
                 $this->languages->map(fn ($lang) => [

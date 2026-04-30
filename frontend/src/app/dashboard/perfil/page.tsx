@@ -73,7 +73,11 @@ export default function EditProfilePage() {
   const [serverMessage, setServerMessage] = useState("");
   const [photoUploading, setPhotoUploading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string>("");
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [coverUrl, setCoverUrl] = useState<string>("");
+  const [coverPosition, setCoverPosition] = useState(50);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
   const [countries, setCountries] = useState<string[]>([]);
   const [geoStates, setGeoStates] = useState<GeoState[]>([]);
   const [geoCities, setGeoCities] = useState<GeoCity[]>([]);
@@ -109,6 +113,8 @@ export default function EditProfilePage() {
         setLanguages(langs);
         setCountries(ctrs);
         setPhotoUrl(sp.photo_url || "");
+        setCoverUrl(sp.cover_url || "");
+        setCoverPosition(sp.cover_position ?? 50);
 
         // Fill form
         setValue("first_name", sp.first_name || "");
@@ -188,6 +194,34 @@ export default function EditProfilePage() {
     }
   }
 
+  async function handleCoverUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCoverUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("cover", file);
+      formData.append("cover_position", String(coverPosition));
+      const { data } = await api.post("/speaker/profile/cover", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setCoverUrl(data.cover_url);
+    } catch {
+      // silently fail
+    } finally {
+      setCoverUploading(false);
+    }
+  }
+
+  async function saveCoverPosition(pos: number) {
+    setCoverPosition(pos);
+    try {
+      await api.put("/speaker/profile/cover-position", { cover_position: pos });
+    } catch {
+      // silently fail
+    }
+  }
+
   function toggleArrayValue(
     field: "category_ids" | "topic_ids" | "language_ids",
     id: number,
@@ -217,28 +251,93 @@ export default function EditProfilePage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Photo */}
+        {/* Cover photo */}
         <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-bold text-primary">Foto de perfil</h2>
+          <h2 className="mb-2 text-lg font-bold text-primary">Foto de portada</h2>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Imagen horizontal que aparece como banner en tu perfil. Recomendado: 1200x400px.
+          </p>
+          <div className="relative overflow-hidden rounded-lg bg-muted" style={{ height: 200 }}>
+            {coverUrl ? (
+              <Image
+                src={coverUrl}
+                alt="Portada"
+                fill
+                className="object-cover"
+                style={{ objectPosition: `center ${coverPosition}%` }}
+              />
+            ) : (
+              <div className="flex size-full items-center justify-center text-muted-foreground">
+                <Camera className="size-10" />
+              </div>
+            )}
+            {coverUploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                <Loader2 className="size-8 animate-spin text-white" />
+              </div>
+            )}
+          </div>
+          {coverUrl && (
+            <div className="mt-3 flex items-center gap-3">
+              <label className="text-xs font-medium text-muted-foreground whitespace-nowrap">Ajustar posicion:</label>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={coverPosition}
+                onChange={(e) => setCoverPosition(Number(e.target.value))}
+                onMouseUp={(e) => saveCoverPosition(Number((e.target as HTMLInputElement).value))}
+                onTouchEnd={(e) => saveCoverPosition(Number((e.target as HTMLInputElement).value))}
+                className="flex-1 accent-accent"
+              />
+            </div>
+          )}
+          <div className="mt-3">
+            <input
+              ref={coverInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleCoverUpload}
+              className="hidden"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => coverInputRef.current?.click()}
+            >
+              <Camera className="size-4" />
+              {coverUrl ? "Cambiar portada" : "Subir portada"}
+            </Button>
+            <span className="ml-3 text-xs text-muted-foreground">JPEG, PNG o WebP. Maximo 5MB.</span>
+          </div>
+        </div>
+
+        {/* Profile photo */}
+        <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
+          <h2 className="mb-2 text-lg font-bold text-primary">Foto de perfil</h2>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Foto cuadrada que te identifica. Aparece en el directorio y tu perfil.
+          </p>
           <div className="flex items-center gap-6">
             <div className="relative">
-              <div className="size-24 overflow-hidden rounded-full bg-muted">
+              <div className="size-28 overflow-hidden rounded-2xl bg-muted ring-4 ring-white shadow-lg">
                 {photoUrl ? (
                   <Image
                     src={photoUrl}
                     alt="Foto de perfil"
-                    width={96}
-                    height={96}
+                    width={112}
+                    height={112}
                     className="size-full object-cover"
                   />
                 ) : (
                   <div className="flex size-full items-center justify-center text-muted-foreground">
-                    <Camera className="size-8" />
+                    <Camera className="size-10" />
                   </div>
                 )}
               </div>
               {photoUploading && (
-                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
+                <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/50">
                   <Loader2 className="size-6 animate-spin text-white" />
                 </div>
               )}
@@ -261,7 +360,7 @@ export default function EditProfilePage() {
                 {photoUrl ? "Cambiar foto" : "Subir foto"}
               </Button>
               <p className="mt-2 text-xs text-muted-foreground">
-                JPEG, PNG o WebP. Maximo 2MB.
+                JPEG, PNG o WebP. Maximo 2MB. Recomendado: 400x400px.
               </p>
             </div>
           </div>

@@ -60,67 +60,84 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
 
   return (
     <div className="pb-16">
-      {/* ── Hero Section ──────────────────────────────────────────────── */}
-      <section className="relative h-[400px] w-full overflow-hidden md:h-[500px]">
-        <div className="absolute inset-0 bg-primary">
-          {speaker.photo_url ? (
+      {/* ── Cover Banner ────────────────────────────────────────────── */}
+      <section className="relative h-[250px] w-full overflow-hidden md:h-[340px]">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-[oklch(0.25_0.08_255)]">
+          {speaker.cover_url ? (
+            <img
+              src={speaker.cover_url}
+              alt=""
+              className="absolute inset-0 size-full object-cover opacity-80"
+              style={{ objectPosition: `center ${speaker.cover_position ?? 50}%` }}
+            />
+          ) : speaker.photo_url ? (
             <img
               src={speaker.photo_url}
-              alt={speaker.full_name}
-              className="absolute inset-0 size-full object-cover object-top opacity-60"
+              alt=""
+              className="absolute inset-0 size-full object-cover opacity-20 blur-sm"
             />
-          ) : (
-            <div className="size-full bg-primary" />
-          )}
+          ) : null}
           {/* Gradient overlay */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to right, rgba(0,15,34,0.9) 0%, rgba(0,15,34,0.4) 50%, rgba(0,15,34,0) 100%)',
-            }}
-          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         </div>
+      </section>
 
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center px-6 text-white">
-          {/* Badges */}
-          <div className="mb-4 flex items-center gap-3">
-            {speaker.is_featured && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-                <Star className="size-3" />
-                Destacado
-              </span>
-            )}
-            {speaker.is_verified && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
-                <BadgeCheck className="size-3" />
-                Verificado
-              </span>
-            )}
+      {/* ── Profile Info ─────────────────────────────────────────────── */}
+      <section className="relative mx-auto max-w-7xl px-6">
+        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-end -mt-16 md:-mt-20">
+          {/* Profile photo */}
+          <div className="relative z-10 shrink-0">
+            <div className="size-32 overflow-hidden rounded-2xl border-4 border-white bg-muted shadow-xl md:size-40">
+              {speaker.photo_url ? (
+                <img
+                  src={speaker.photo_url}
+                  alt={speaker.full_name}
+                  className="size-full object-cover"
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center bg-primary/10 text-4xl font-bold text-primary">
+                  {speaker.first_name?.[0]}{speaker.last_name?.[0]}
+                </div>
+              )}
+            </div>
           </div>
 
-          <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
-            {speaker.full_name}
-          </h1>
-
-          {speaker.bio_short && (
-            <p className="mt-2 max-w-2xl text-lg text-white/70 md:text-xl">
-              {speaker.bio_short}
-            </p>
-          )}
-
-          {/* Quick info chips */}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-              <MapPin className="size-4" />
-              {speaker.city}, {speaker.country}
+          {/* Name & badges */}
+          <div className="flex-1 pb-2">
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              {speaker.is_featured && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-white">
+                  <Star className="size-3" />
+                  Destacado
+                </span>
+              )}
+              {speaker.is_verified && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+                  <BadgeCheck className="size-3" />
+                  Verificado
+                </span>
+              )}
             </div>
-            {speaker.languages && speaker.languages.length > 0 && (
-              <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                <Languages className="size-4" />
-                {speaker.languages.map((l) => l.name).join(', ')}
-              </div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-primary md:text-4xl">
+              {speaker.full_name}
+            </h1>
+            {speaker.bio_short && (
+              <p className="mt-1 max-w-2xl text-base text-muted-foreground md:text-lg">
+                {speaker.bio_short}
+              </p>
             )}
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin className="size-4 text-accent" />
+                {speaker.city}, {speaker.country}
+              </div>
+              {speaker.languages && speaker.languages.length > 0 && (
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <Languages className="size-4 text-accent" />
+                  {speaker.languages.map((l) => l.name).join(', ')}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
