@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { submitCompanyLead } from "@/lib/queries";
+import api from "@/lib/api";
 import { CheckCircle, Loader2, AlertCircle } from "lucide-react";
+
+interface GeoState { id: number; name: string; }
+interface GeoCity { id: number; name: string; }
 
 const companyLeadSchema = z.object({
   company_name: z.string().min(2, "El nombre de la empresa es obligatorio"),
@@ -38,6 +42,7 @@ const EVENT_TYPES = [
 ];
 
 const BUDGET_RANGES = [
+  { value: "menos_5000", label: "Menos de USD 5,000" },
   { value: "flexible", label: "Rango Flexible" },
   { value: "5000_10000", label: "USD 5,000 - 10,000" },
   { value: "10000_25000", label: "USD 10,000 - 25,000" },
@@ -63,16 +68,23 @@ const MODALITIES = [
 ];
 
 const selectClassName =
-  "h-10 w-full rounded-lg border border-input bg-white px-2.5 py-1 text-base outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm";
+  "h-10 w-full rounded-lg border border-input bg-white px-2.5 py-1 text-base font-sans outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm";
 
 export default function CompanyLeadForm() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState("");
+  const [countries, setCountries] = useState<string[]>([]);
+  const [geoStates, setGeoStates] = useState<GeoState[]>([]);
+  const [geoCities, setGeoCities] = useState<GeoCity[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedState, setSelectedState] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<CompanyLeadFormValues>({
     resolver: zodResolver(companyLeadSchema),
@@ -92,6 +104,32 @@ export default function CompanyLeadForm() {
     },
   });
 
+  useEffect(() => {
+    api.get<{ data: string[] }>("/geo/countries")
+      .then((r) => setCountries(r.data.data))
+      .catch(() => {});
+  }, []);
+
+  async function loadStates(country: string) {
+    setSelectedCountry(country);
+    setSelectedState("");
+    setGeoStates([]);
+    setGeoCities([]);
+    setValue("city", "");
+    if (!country) return;
+    const res = await api.get<{ data: GeoState[] }>("/geo/states", { params: { country } });
+    setGeoStates(res.data.data);
+  }
+
+  async function loadCities(stateId: string) {
+    setSelectedState(stateId);
+    setGeoCities([]);
+    setValue("city", "");
+    if (!stateId) return;
+    const res = await api.get<{ data: GeoCity[] }>("/geo/cities", { params: { state_id: stateId } });
+    setGeoCities(res.data.data);
+  }
+
   async function onSubmit(data: CompanyLeadFormValues) {
     try {
       setStatus("idle");
@@ -101,6 +139,10 @@ export default function CompanyLeadForm() {
         result.message || "Tu solicitud fue enviada. Te contactaremos pronto."
       );
       reset();
+      setSelectedCountry("");
+      setSelectedState("");
+      setGeoStates([]);
+      setGeoCities([]);
     } catch {
       setStatus("error");
       setServerMessage(
@@ -197,35 +239,74 @@ export default function CompanyLeadForm() {
           </div>
         </div>
 
-        {/* Row: Sector + City */}
-        <div className="grid gap-5 md:grid-cols-2">
+        {/* Row: Sector */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-semibold text-foreground">
+            Sector *
+          </label>
+          <select {...register("sector")} className={selectClassName}>
+            <option value="">Selecciona un sector</option>
+            {SECTORS.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+          {errors.sector && (
+            <p className="text-xs text-destructive">
+              {errors.sector.message}
+            </p>
+          )}
+        </div>
+
+        {/* Row: Country + State + City (cascade) */}
+        <div className="grid gap-5 md:grid-cols-3">
           <div className="space-y-1.5">
             <label className="text-sm font-semibold text-foreground">
-              Sector *
+              Pais *
             </label>
-            <select {...register("sector")} className={selectClassName}>
-              <option value="">Selecciona un sector</option>
-              {SECTORS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
+            <select
+              className={selectClassName}
+              value={selectedCountry}
+              onChange={(e) => loadStates(e.target.value)}
+            >
+              <option value="">Seleccionar pais...</option>
+              {countries.map((c) => (
+                <option key={c} value={c}>{c}</option>
               ))}
             </select>
-            {errors.sector && (
-              <p className="text-xs text-destructive">
-                {errors.sector.message}
-              </p>
-            )}
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-sm font-semibold text-foreground">
+              Estado / Provincia
+            </label>
+            <select
+              className={selectClassName}
+              value={selectedState}
+              onChange={(e) => loadCities(e.target.value)}
+              disabled={geoStates.length === 0}
+            >
+              <option value="">Seleccionar estado...</option>
+              {geoStates.map((s) => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </select>
           </div>
           <div className="space-y-1.5">
             <label className="text-sm font-semibold text-foreground">
               Ciudad *
             </label>
-            <Input
-              {...register("city")}
-              placeholder="Ej. Ciudad de Mexico"
-              className="h-10 bg-white"
-            />
+            <select
+              className={selectClassName}
+              value={watch("city") || ""}
+              onChange={(e) => setValue("city", e.target.value, { shouldValidate: true })}
+              disabled={geoCities.length === 0}
+            >
+              <option value="">Seleccionar ciudad...</option>
+              {geoCities.map((c) => (
+                <option key={c.id} value={c.name}>{c.name}</option>
+              ))}
+            </select>
             {errors.city && (
               <p className="text-xs text-destructive">
                 {errors.city.message}
