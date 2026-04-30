@@ -83,60 +83,62 @@ export default async function SpeakerProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Profile Info ─────────────────────────────────────────────── */}
-      <section className="relative mx-auto max-w-7xl px-6">
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-end -mt-16 md:-mt-20">
-          {/* Profile photo */}
-          <div className="relative z-10 shrink-0">
-            <div className="size-32 overflow-hidden rounded-2xl border-4 border-white bg-muted shadow-xl md:size-40">
-              {speaker.photo_url ? (
-                <img
-                  src={speaker.photo_url}
-                  alt={speaker.full_name}
-                  className="size-full object-cover"
-                />
-              ) : (
-                <div className="flex size-full items-center justify-center bg-primary/10 text-4xl font-bold text-primary">
-                  {speaker.first_name?.[0]}{speaker.last_name?.[0]}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Name & badges */}
-          <div className="flex-1 pb-2">
-            <div className="flex flex-wrap items-center gap-2 mb-1">
-              {speaker.is_featured && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-white">
-                  <Star className="size-3" />
-                  Destacado
-                </span>
-              )}
-              {speaker.is_verified && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                  <BadgeCheck className="size-3" />
-                  Verificado
-                </span>
-              )}
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-primary md:text-4xl">
-              {speaker.full_name}
-            </h1>
-            {speaker.bio_short && (
-              <p className="mt-1 max-w-2xl text-base text-muted-foreground md:text-lg">
-                {speaker.bio_short}
-              </p>
-            )}
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <MapPin className="size-4 text-accent" />
-                {speaker.city}, {speaker.country}
+      <section className="relative mx-auto max-w-7xl px-6 -mt-20 md:-mt-24 z-10">
+        <div className="rounded-2xl bg-white p-6 shadow-lg md:p-8">
+          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            {/* Profile photo */}
+            <div className="relative shrink-0 -mt-16 sm:-mt-20">
+              <div className="size-28 overflow-hidden rounded-2xl border-4 border-white bg-muted shadow-xl md:size-36">
+                {speaker.photo_url ? (
+                  <img
+                    src={speaker.photo_url}
+                    alt={speaker.full_name}
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <div className="flex size-full items-center justify-center bg-primary/10 text-4xl font-bold text-primary">
+                    {speaker.first_name?.[0]}{speaker.last_name?.[0]}
+                  </div>
+                )}
               </div>
-              {speaker.languages && speaker.languages.length > 0 && (
-                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Languages className="size-4 text-accent" />
-                  {speaker.languages.map((l) => l.name).join(', ')}
-                </div>
+            </div>
+
+            {/* Name & badges */}
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                {speaker.is_featured && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-white">
+                    <Star className="size-3" />
+                    Destacado
+                  </span>
+                )}
+                {speaker.is_verified && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
+                    <BadgeCheck className="size-3" />
+                    Verificado
+                  </span>
+                )}
+              </div>
+              <h1 className="text-2xl font-extrabold tracking-tight text-primary md:text-3xl">
+                {speaker.full_name}
+              </h1>
+              {speaker.bio_short && (
+                <p className="mt-1 max-w-2xl text-sm text-muted-foreground md:text-base">
+                  {speaker.bio_short}
+                </p>
               )}
+              <div className="mt-3 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <MapPin className="size-4 text-accent" />
+                  {speaker.city}, {speaker.country}
+                </div>
+                {speaker.languages && speaker.languages.length > 0 && (
+                  <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Languages className="size-4 text-accent" />
+                    {speaker.languages.map((l) => l.name).join(', ')}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
