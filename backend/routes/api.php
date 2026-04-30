@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AnalyticsController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CompanyLeadController;
 use App\Http\Controllers\Api\V1\ContactMessageController;
+use App\Http\Controllers\Api\V1\GeoController;
 use App\Http\Controllers\Api\V1\LegalPageController;
 use App\Http\Controllers\Api\V1\MediaItemController;
 use App\Http\Controllers\Api\V1\SiteSettingController;
@@ -47,6 +48,11 @@ Route::prefix('v1')->group(function () {
 
     // Public - Contact
     Route::post('contact', [ContactMessageController::class, 'store']);
+
+    // Public - Geography (cascading selects)
+    Route::get('geo/countries', [GeoController::class, 'countries']);
+    Route::get('geo/states', [GeoController::class, 'states']);
+    Route::get('geo/cities', [GeoController::class, 'cities']);
 
     // Public - Legal pages
     Route::get('legal/{slug}', [LegalPageController::class, 'show']);

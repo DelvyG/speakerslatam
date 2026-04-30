@@ -25,6 +25,9 @@ import {
 import api from "@/lib/api";
 import type { Speaker, Category, Topic, Language } from "@/types";
 
+interface GeoState { id: number; name: string; }
+interface GeoCity { id: number; name: string; }
+
 const profileSchema = z.object({
   first_name: z.string().min(2, "El nombre es obligatorio"),
   last_name: z.string().min(2, "El apellido es obligatorio"),
@@ -46,12 +49,7 @@ const profileSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-const COUNTRIES = [
-  "Venezuela", "Mexico", "Colombia", "Argentina", "Chile",
-  "Peru", "Ecuador", "Bolivia", "Uruguay", "Paraguay",
-  "Costa Rica", "Panama", "Guatemala", "Honduras", "El Salvador",
-  "Nicaragua", "Republica Dominicana", "Cuba", "Puerto Rico", "Brasil",
-];
+// Countries loaded from API
 
 const FEE_RANGES = [
   "Menos de $500",
@@ -76,6 +74,10 @@ export default function EditProfilePage() {
   const [photoUploading, setPhotoUploading] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [countries, setCountries] = useState<string[]>([]);
+  const [geoStates, setGeoStates] = useState<GeoState[]>([]);
+  const [geoCities, setGeoCities] = useState<GeoCity[]>([]);
+  const [selectedState, setSelectedState] = useState<string>("");
 
   const {
     register,
@@ -98,12 +100,14 @@ export default function EditProfilePage() {
       getCategories(),
       getTopics(),
       getLanguages(),
+      api.get<{ data: string[] }>("/geo/countries").then((r) => r.data.data),
     ])
-      .then(([sp, cats, tops, langs]) => {
+      .then(async ([sp, cats, tops, langs, ctrs]) => {
         setSpeaker(sp);
         setCategories(cats);
         setTopics(tops);
         setLanguages(langs);
+        setCountries(ctrs);
         setPhotoUrl(sp.photo_url || "");
 
         // Fill form
@@ -123,10 +127,35 @@ export default function EditProfilePage() {
         setValue("category_ids", sp.categories?.map((c) => c.id) || []);
         setValue("topic_ids", sp.topics?.map((t) => t.id) || []);
         setValue("language_ids", sp.languages?.map((l) => l.id) || []);
+
+        // Load states for current country
+        if (sp.country) {
+          const stRes = await api.get<{ data: GeoState[] }>("/geo/states", { params: { country: sp.country } });
+          setGeoStates(stRes.data.data);
+          // Find state that matches city to pre-select
+          // We store state name in selectedState for display
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [setValue]);
+
+  async function loadStates(country: string) {
+    if (!country) { setGeoStates([]); setGeoCities([]); return; }
+    const res = await api.get<{ data: GeoState[] }>("/geo/states", { params: { country } });
+    setGeoStates(res.data.data);
+    setGeoCities([]);
+    setSelectedState("");
+    setValue("city", "");
+  }
+
+  async function loadCities(stateId: string) {
+    if (!stateId) { setGeoCities([]); return; }
+    setSelectedState(stateId);
+    const res = await api.get<{ data: GeoCity[] }>("/geo/cities", { params: { state_id: stateId } });
+    setGeoCities(res.data.data);
+    setValue("city", "");
+  }
 
   async function onSubmit(data: ProfileFormValues) {
     try {
@@ -257,19 +286,49 @@ export default function EditProfilePage() {
               )}
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold">Ciudad *</label>
-              <Input {...register("city")} placeholder="Ej. Caracas" className="h-10" />
-              {errors.city && (
-                <p className="text-xs text-destructive">{errors.city.message}</p>
-              )}
-            </div>
-            <div className="space-y-1.5">
               <label className="text-sm font-semibold">Pais *</label>
-              <select {...register("country")} className={selectClassName}>
-                {COUNTRIES.map((c) => (
+              <select
+                {...register("country")}
+                className={selectClassName}
+                onChange={(e) => {
+                  register("country").onChange(e);
+                  loadStates(e.target.value);
+                }}
+              >
+                <option value="">Seleccionar pais...</option>
+                {countries.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold">Estado / Provincia *</label>
+              <select
+                className={selectClassName}
+                value={selectedState}
+                onChange={(e) => loadCities(e.target.value)}
+              >
+                <option value="">Seleccionar estado...</option>
+                {geoStates.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-semibold">Ciudad *</label>
+              <select
+                className={selectClassName}
+                value={watch("city") || ""}
+                onChange={(e) => setValue("city", e.target.value, { shouldValidate: true })}
+              >
+                <option value="">Seleccionar ciudad...</option>
+                {geoCities.map((c) => (
+                  <option key={c.id} value={c.name}>{c.name}</option>
+                ))}
+              </select>
+              {errors.city && (
+                <p className="text-xs text-destructive">{errors.city.message}</p>
+              )}
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-semibold">Telefono</label>
