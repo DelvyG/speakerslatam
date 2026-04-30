@@ -41,6 +41,14 @@ class SpeakerProfileController extends Controller
         $speaker->topics()->sync($validated['topic_ids'] ?? []);
         $speaker->languages()->sync($validated['language_ids']);
 
+        // Auto-activate when profile is complete
+        if ($speaker->status->value === 'pending' && $speaker->bio_short && $speaker->city) {
+            $speaker->update([
+                'status' => 'active',
+                'published_at' => now(),
+            ]);
+        }
+
         $speaker->load(['categories', 'topics', 'languages', 'media', 'activeMembership']);
 
         return new SpeakerDetailResource($speaker);

@@ -153,7 +153,7 @@ export default function DashboardPage() {
               Editar perfil
             </Button>
           </Link>
-          {speaker?.slug && (
+          {speaker?.slug && isProfileComplete && (
             <Link href={`/directorio/${speaker.slug}`} target="_blank">
               <Button
                 variant="outline"
@@ -163,6 +163,11 @@ export default function DashboardPage() {
                 Ver mi perfil publico
               </Button>
             </Link>
+          )}
+          {!isProfileComplete && (
+            <p className="text-sm text-muted-foreground">
+              Completa tu perfil para que sea visible en el directorio.
+            </p>
           )}
         </div>
       </div>
