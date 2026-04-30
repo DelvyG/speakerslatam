@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\CompanyLeadController;
 use App\Http\Controllers\Api\V1\ContactMessageController;
 use App\Http\Controllers\Api\V1\GeoController;
 use App\Http\Controllers\Api\V1\LegalPageController;
+use App\Http\Controllers\Api\V1\MembershipController;
 use App\Http\Controllers\Api\V1\MediaItemController;
 use App\Http\Controllers\Api\V1\SiteSettingController;
 use App\Http\Controllers\Api\V1\NewsletterController;
@@ -57,6 +58,10 @@ Route::prefix('v1')->group(function () {
     // Public - Legal pages
     Route::get('legal/{slug}', [LegalPageController::class, 'show']);
 
+    // Public - Membership plans & payment accounts
+    Route::get('membership/plans', [MembershipController::class, 'plans']);
+    Route::get('membership/payment-accounts', [MembershipController::class, 'paymentAccounts']);
+
     // Public - Site settings
     Route::get('settings', [SiteSettingController::class, 'index']);
 
@@ -78,6 +83,10 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('auth/logout', [AuthController::class, 'logout']);
         Route::get('auth/user', [AuthController::class, 'user']);
+
+        // Membership
+        Route::get('membership/my', [MembershipController::class, 'myMembership']);
+        Route::post('membership/pay', [MembershipController::class, 'submitPayment']);
 
         // Speaker dashboard
         Route::prefix('speaker')->group(function () {

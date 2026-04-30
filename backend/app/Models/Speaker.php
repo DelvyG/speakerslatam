@@ -128,4 +128,25 @@ class Speaker extends Model implements HasMedia
     {
         return $query->where('is_verified', true);
     }
+
+    public function scopeProfileComplete($query)
+    {
+        return $query->where('bio_short', '!=', '')
+            ->whereNotNull('bio_short')
+            ->where('city', '!=', '')
+            ->whereNotNull('city');
+    }
+
+    public function scopeWithApprovedMembership($query)
+    {
+        return $query->whereHas('memberships', function ($q) {
+            $q->where('status', 'active')
+              ->where('expires_at', '>', now());
+        });
+    }
+
+    public function scopeVisibleInDirectory($query)
+    {
+        return $query->active()->profileComplete();
+    }
 }

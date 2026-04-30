@@ -14,7 +14,7 @@ class PublicSpeakerController extends Controller
 {
     public function index(Request $request): AnonymousResourceCollection
     {
-        $query = Speaker::active()
+        $query = Speaker::visibleInDirectory()
             ->with(['categories', 'topics', 'media']);
 
         if ($search = $request->query('search')) {
@@ -62,7 +62,7 @@ class PublicSpeakerController extends Controller
 
     public function show(string $slug): SpeakerDetailResource
     {
-        $speaker = Speaker::active()
+        $speaker = Speaker::visibleInDirectory()
             ->where('slug', $slug)
             ->with(['categories', 'topics', 'languages', 'media', 'activeMembership'])
             ->firstOrFail();
@@ -72,7 +72,7 @@ class PublicSpeakerController extends Controller
 
     public function featured(): AnonymousResourceCollection
     {
-        $speakers = Speaker::active()
+        $speakers = Speaker::visibleInDirectory()
             ->featured()
             ->with(['categories', 'topics', 'media'])
             ->limit(6)

@@ -33,10 +33,9 @@ const registerSchema = z
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const STEPS = [
-  { label: 'Datos Personales', active: true },
-  { label: 'Expertise', active: false },
-  { label: 'Demo / Video', active: false },
-  { label: 'Tarifas', active: false },
+  { label: 'Crear Cuenta', active: true },
+  { label: 'Completar Perfil', active: false },
+  { label: 'Membresia', active: false },
 ];
 
 const BENEFITS = [

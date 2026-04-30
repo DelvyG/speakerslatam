@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   LayoutDashboard,
   UserCircle,
+  CreditCard,
   LogOut,
   Loader2,
 } from "lucide-react";
@@ -14,6 +15,7 @@ import { useAuth } from "@/lib/auth-context";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Resumen", icon: LayoutDashboard },
   { href: "/dashboard/perfil", label: "Mi Perfil", icon: UserCircle },
+  { href: "/dashboard/membresia", label: "Membresia", icon: CreditCard },
 ];
 
 export default function DashboardLayout({

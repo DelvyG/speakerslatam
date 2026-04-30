@@ -8,21 +8,30 @@ import {
   CheckCircle,
   Eye,
   Edit,
+  CreditCard,
   Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth-context";
 import { getSpeakerProfile } from "@/lib/queries";
+import api from "@/lib/api";
 import type { Speaker } from "@/types";
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const [speaker, setSpeaker] = useState<Speaker | null>(null);
+  const [membership, setMembership] = useState<{ status: string; status_label: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getSpeakerProfile()
-      .then(setSpeaker)
+    Promise.all([
+      getSpeakerProfile(),
+      api.get<{ data: { status: string; status_label: string } | null }>("/membership/my"),
+    ])
+      .then(([sp, memRes]) => {
+        setSpeaker(sp);
+        setMembership(memRes.data.data);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -74,6 +83,45 @@ export default function DashboardPage() {
                 Completar perfil
               </Button>
             </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Membership alert */}
+      {isProfileComplete && !membership && (
+        <div className="flex items-start gap-4 rounded-xl border border-blue-200 bg-blue-50 p-5">
+          <CreditCard className="mt-0.5 size-5 shrink-0 text-blue-600" />
+          <div>
+            <h3 className="text-sm font-bold text-blue-800">
+              Activa tu membresia
+            </h3>
+            <p className="mt-1 text-sm text-blue-700">
+              Para aparecer en el directorio necesitas una membresia activa.
+              Realiza tu pago y sube el comprobante.
+            </p>
+            <Link href="/dashboard/membresia" className="mt-3 inline-block">
+              <Button
+                size="sm"
+                className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+              >
+                <CreditCard className="size-4" />
+                Ver planes y pagar
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {membership?.status === "pending" && (
+        <div className="flex items-start gap-4 rounded-xl border border-amber-200 bg-amber-50 p-5">
+          <CreditCard className="mt-0.5 size-5 shrink-0 text-amber-600" />
+          <div>
+            <h3 className="text-sm font-bold text-amber-800">
+              Pago en revision
+            </h3>
+            <p className="mt-1 text-sm text-amber-700">
+              Tu comprobante de pago esta siendo verificado. Te notificaremos cuando sea aprobado.
+            </p>
           </div>
         </div>
       )}
