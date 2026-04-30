@@ -201,17 +201,20 @@ class SiteSettings extends Page implements HasForms
     {
         $data = $this->form->getState();
 
+        // Get current file values to preserve if unchanged
+        $currentFiles = SiteSetting::whereIn('key', self::FILE_KEYS)->pluck('value', 'key')->toArray();
+
         foreach ($data as $key => $value) {
-            // FileUpload returns arrays - convert to storage path
-            if (is_array($value)) {
-                if (!empty($value)) {
-                    $value = '/storage/' . array_values($value)[0];
+            $isFileKey = in_array($key, self::FILE_KEYS);
+
+            if ($isFileKey) {
+                if (is_array($value) && !empty($value)) {
+                    // New file uploaded - add /storage/ prefix
+                    $path = array_values($value)[0];
+                    $value = str_starts_with($path, '/storage/') ? $path : '/storage/' . $path;
                 } else {
-                    // If file field is empty, keep existing value (don't erase)
-                    if (in_array($key, self::FILE_KEYS)) {
-                        continue;
-                    }
-                    $value = '';
+                    // No change or removed - keep existing value
+                    $value = $currentFiles[$key] ?? '';
                 }
             }
 
