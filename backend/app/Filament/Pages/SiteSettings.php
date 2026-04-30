@@ -204,7 +204,15 @@ class SiteSettings extends Page implements HasForms
         foreach ($data as $key => $value) {
             // FileUpload returns arrays - convert to storage path
             if (is_array($value)) {
-                $value = !empty($value) ? '/storage/' . array_values($value)[0] : '';
+                if (!empty($value)) {
+                    $value = '/storage/' . array_values($value)[0];
+                } else {
+                    // If file field is empty, keep existing value (don't erase)
+                    if (in_array($key, self::FILE_KEYS)) {
+                        continue;
+                    }
+                    $value = '';
+                }
             }
 
             SiteSetting::updateOrCreate(
