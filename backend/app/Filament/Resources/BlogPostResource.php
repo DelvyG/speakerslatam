@@ -60,160 +60,126 @@ class BlogPostResource extends Resource
     {
         return $schema
             ->schema([
-                Grid::make(3)
+                Section::make('Contenido')
                     ->schema([
-                        // Main content (2/3)
-                        Grid::make(1)
-                            ->schema([
-                                Section::make('Contenido')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('title')
-                                            ->label('Titulo')
-                                            ->required()
-                                            ->maxLength(255)
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(function ($state, callable $set, ?Model $record) {
-                                                if (! $record) {
-                                                    $set('slug', Str::slug($state));
-                                                }
-                                            }),
-                                        Forms\Components\TextInput::make('slug')
-                                            ->label('URL amigable')
-                                            ->required()
-                                            ->unique(ignoreRecord: true)
-                                            ->maxLength(255)
-                                            ->prefix('/blog/'),
-                                        Forms\Components\Textarea::make('excerpt')
-                                            ->label('Extracto')
-                                            ->helperText('Resumen corto que aparece en listados y SEO (max 500 caracteres)')
-                                            ->maxLength(500)
-                                            ->rows(3),
-                                        Forms\Components\RichEditor::make('body')
-                                            ->label('Contenido')
-                                            ->required()
-                                            ->columnSpanFull()
-                                            ->fileAttachmentsDisk('public')
-                                            ->fileAttachmentsDirectory('blog-content-images')
-                                            ->toolbarButtons([
-                                                'bold', 'italic', 'underline', 'strike',
-                                                'link', 'h2', 'h3',
-                                                'bulletList', 'orderedList', 'blockquote',
-                                                'attachFiles',
-                                                'redo', 'undo',
-                                            ]),
-                                    ]),
-                            ])
-                            ->columnSpan(2),
+                        Forms\Components\TextInput::make('title')
+                            ->label('Titulo')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function ($state, callable $set, ?Model $record) {
+                                if (! $record) {
+                                    $set('slug', Str::slug($state));
+                                }
+                            }),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('URL amigable')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->prefix('/blog/'),
+                        Forms\Components\Textarea::make('excerpt')
+                            ->label('Extracto')
+                            ->helperText('Resumen corto para listados y SEO (max 500 caracteres)')
+                            ->maxLength(500)
+                            ->rows(2)
+                            ->columnSpanFull(),
+                        Forms\Components\RichEditor::make('body')
+                            ->label('Contenido')
+                            ->required()
+                            ->columnSpanFull()
+                            ->fileAttachmentsDisk('public')
+                            ->fileAttachmentsDirectory('blog-content-images')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'link', 'h2', 'h3',
+                                'bulletList', 'orderedList', 'blockquote',
+                                'attachFiles',
+                                'redo', 'undo',
+                            ]),
+                    ])->columns(2),
 
-                        // Sidebar (1/3)
-                        Grid::make(1)
-                            ->schema([
-                                Section::make('Publicacion')
-                                    ->schema([
-                                        Forms\Components\Select::make('status')
-                                            ->label('Estado')
-                                            ->options(BlogPostStatus::class)
-                                            ->default(BlogPostStatus::Draft)
-                                            ->required()
-                                            ->reactive(),
-                                        Forms\Components\DateTimePicker::make('published_at')
-                                            ->label('Fecha de publicacion')
-                                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                                BlogPostStatus::Published->value,
-                                                BlogPostStatus::Published,
-                                                'published',
-                                            ])),
-                                        Forms\Components\DateTimePicker::make('scheduled_at')
-                                            ->label('Programar para')
-                                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                                BlogPostStatus::Scheduled->value,
-                                                BlogPostStatus::Scheduled,
-                                                'scheduled',
-                                            ])),
-                                        Forms\Components\Placeholder::make('author_info')
-                                            ->label('Autor')
-                                            ->content(fn (?BlogPost $record) => $record?->author?->name ?? 'Tu (admin)'),
-                                        Forms\Components\Placeholder::make('speaker_info')
-                                            ->label('Speaker')
-                                            ->content(fn (?BlogPost $record) => $record?->speaker?->full_name ?? '—')
-                                            ->visible(fn (?BlogPost $record) => $record?->speaker_id !== null),
-                                        Forms\Components\Textarea::make('rejection_reason')
-                                            ->label('Razon del rechazo')
-                                            ->rows(3)
-                                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                                BlogPostStatus::Rejected->value,
-                                                BlogPostStatus::Rejected,
-                                                'rejected',
-                                            ])),
-                                    ]),
+                Section::make('Imagen y categorias')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('featured_image')
+                            ->label('Imagen destacada')
+                            ->collection('featured_image')
+                            ->image()
+                            ->imageEditor()
+                            ->imagePreviewHeight('200')
+                            ->responsiveImages(),
+                        Forms\Components\Select::make('categories')
+                            ->label('Categorias')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable(),
+                    ])->columns(2),
 
-                                Section::make('Imagen destacada')
-                                    ->schema([
-                                        SpatieMediaLibraryFileUpload::make('featured_image')
-                                            ->label('')
-                                            ->collection('featured_image')
-                                            ->image()
-                                            ->imageEditor()
-                                            ->imagePreviewHeight('200')
-                                            ->responsiveImages(),
-                                    ]),
+                Section::make('Publicacion')
+                    ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label('Estado')
+                            ->options(BlogPostStatus::class)
+                            ->default(BlogPostStatus::Draft)
+                            ->required()
+                            ->reactive(),
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('Fecha de publicacion')
+                            ->visible(fn (callable $get) => in_array($get('status'), [
+                                BlogPostStatus::Published->value,
+                                BlogPostStatus::Published,
+                                'published',
+                            ])),
+                        Forms\Components\DateTimePicker::make('scheduled_at')
+                            ->label('Programar para')
+                            ->visible(fn (callable $get) => in_array($get('status'), [
+                                BlogPostStatus::Scheduled->value,
+                                BlogPostStatus::Scheduled,
+                                'scheduled',
+                            ])),
+                        Forms\Components\Placeholder::make('author_info')
+                            ->label('Autor')
+                            ->content(fn (?BlogPost $record) => $record?->author?->name ?? 'Tu (admin)'),
+                        Forms\Components\Textarea::make('rejection_reason')
+                            ->label('Razon del rechazo')
+                            ->rows(2)
+                            ->visible(fn (callable $get) => in_array($get('status'), [
+                                BlogPostStatus::Rejected->value,
+                                BlogPostStatus::Rejected,
+                                'rejected',
+                            ])),
+                        Forms\Components\Toggle::make('is_featured')
+                            ->label('Destacado'),
+                        Forms\Components\Toggle::make('allow_comments')
+                            ->label('Permitir comentarios')
+                            ->default(true),
+                    ])->columns(3),
 
-                                Section::make('Categorias')
-                                    ->schema([
-                                        Forms\Components\Select::make('categories')
-                                            ->label('')
-                                            ->relationship('categories', 'name')
-                                            ->multiple()
-                                            ->preload()
-                                            ->searchable(),
-                                    ]),
-
-                                Section::make('SEO')
-                                    ->collapsed()
-                                    ->schema([
-                                        Forms\Components\TextInput::make('meta_title')
-                                            ->label('Titulo SEO')
-                                            ->maxLength(70)
-                                            ->helperText('Si se deja vacio, se usa el titulo del articulo'),
-                                        Forms\Components\Textarea::make('meta_description')
-                                            ->label('Descripcion SEO')
-                                            ->maxLength(160)
-                                            ->rows(2)
-                                            ->helperText('Si se deja vacio, se usa el extracto'),
-                                        Forms\Components\TextInput::make('og_title')
-                                            ->label('Titulo OpenGraph')
-                                            ->maxLength(255),
-                                        Forms\Components\Textarea::make('og_description')
-                                            ->label('Descripcion OpenGraph')
-                                            ->maxLength(300)
-                                            ->rows(2),
-                                        SpatieMediaLibraryFileUpload::make('og_image')
-                                            ->label('Imagen OpenGraph')
-                                            ->collection('og_image')
-                                            ->image()
-                                            ->helperText('1200x630px recomendado'),
-                                    ]),
-
-                                Section::make('Opciones')
-                                    ->collapsed()
-                                    ->schema([
-                                        Forms\Components\Toggle::make('is_featured')
-                                            ->label('Destacado'),
-                                        Forms\Components\Toggle::make('allow_comments')
-                                            ->label('Permitir comentarios')
-                                            ->default(true),
-                                        Forms\Components\Placeholder::make('reading_time')
-                                            ->label('Tiempo de lectura')
-                                            ->content(fn (?BlogPost $record) => $record?->reading_time_minutes
-                                                ? "{$record->reading_time_minutes} min"
-                                                : 'Se calculara al guardar'),
-                                        Forms\Components\Placeholder::make('views')
-                                            ->label('Vistas')
-                                            ->content(fn (?BlogPost $record) => number_format($record?->views_count ?? 0)),
-                                    ]),
-                            ])
-                            ->columnSpan(1),
-                    ]),
+                Section::make('SEO (opcional)')
+                    ->collapsed()
+                    ->schema([
+                        Forms\Components\TextInput::make('meta_title')
+                            ->label('Titulo SEO')
+                            ->maxLength(70)
+                            ->helperText('Si se deja vacio, se usa el titulo del articulo'),
+                        Forms\Components\TextInput::make('og_title')
+                            ->label('Titulo OpenGraph')
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('meta_description')
+                            ->label('Descripcion SEO')
+                            ->maxLength(160)
+                            ->rows(2),
+                        Forms\Components\Textarea::make('og_description')
+                            ->label('Descripcion OpenGraph')
+                            ->maxLength(300)
+                            ->rows(2),
+                        SpatieMediaLibraryFileUpload::make('og_image')
+                            ->label('Imagen OpenGraph (1200x630px)')
+                            ->collection('og_image')
+                            ->image()
+                            ->columnSpanFull(),
+                    ])->columns(2),
             ]);
     }
 
