@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 import { Loader2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import BlogPostCard from "@/components/blog/BlogPostCard";
@@ -9,13 +8,18 @@ import { getBlogPosts, getBlogCategories } from "@/lib/queries";
 import type { BlogPost, BlogCategory } from "@/types";
 
 export default function BlogPage() {
-  const searchParams = useSearchParams();
+  return (
+    <Suspense fallback={<div className="flex min-h-[40vh] items-center justify-center"><Loader2 className="size-8 animate-spin text-primary" /></div>}>
+      <BlogContent />
+    </Suspense>
+  );
+}
+
+function BlogContent() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>(
-    searchParams.get("categoria") || ""
-  );
+  const [activeCategory, setActiveCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
