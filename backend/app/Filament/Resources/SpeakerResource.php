@@ -165,11 +165,9 @@ class SpeakerResource extends Resource
 
                 Section::make('Estado y visibilidad')
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('Usuario')
-                            ->relationship('user', 'name')
-                            ->searchable()
-                            ->preload(),
+                        Forms\Components\Placeholder::make('user_email')
+                            ->label('Cuenta de usuario')
+                            ->content(fn (?Speaker $record) => $record?->user?->email ?? 'Sin cuenta asociada'),
                         Forms\Components\Select::make('status')
                             ->label('Estado')
                             ->options(SpeakerStatus::class)
@@ -199,6 +197,11 @@ class SpeakerResource extends Resource
                     ->formatStateUsing(fn (Model $record) => $record->full_name)
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.email')
+                    ->label('Email')
+                    ->searchable()
+                    ->icon('heroicon-m-envelope')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('city')
                     ->label('Ciudad')
                     ->searchable(),
@@ -276,11 +279,26 @@ class SpeakerResource extends Resource
             ])
             ->actions([
                 Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
+                Actions\DeleteAction::make()
+                    ->before(function (Speaker $record) {
+                        // Cascade: delete associated user account
+                        if ($record->user) {
+                            $record->user->tokens()->delete();
+                            $record->user->delete();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
+                    Actions\DeleteBulkAction::make()
+                        ->before(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            foreach ($records as $record) {
+                                if ($record->user) {
+                                    $record->user->tokens()->delete();
+                                    $record->user->delete();
+                                }
+                            }
+                        }),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

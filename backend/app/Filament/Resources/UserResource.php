@@ -18,9 +18,9 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $modelLabel = 'Usuario';
+    protected static ?string $modelLabel = 'Administrador';
 
-    protected static ?string $pluralModelLabel = 'Usuarios';
+    protected static ?string $pluralModelLabel = 'Administradores';
 
     protected static ?int $navigationSort = 1;
 
@@ -28,12 +28,17 @@ class UserResource extends Resource
 
     public static function getNavigationIcon(): string|\BackedEnum|null
     {
-        return 'heroicon-o-users';
+        return 'heroicon-o-shield-check';
     }
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
         return 'Administracion';
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->whereDoesntHave('speaker');
     }
 
     public static function getGloballySearchableAttributes(): array
@@ -92,10 +97,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('Roles')
                     ->badge(),
-                Tables\Columns\TextColumn::make('speaker.status')
-                    ->label('Perfil conferencista')
-                    ->badge()
-                    ->default('Sin perfil'),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Verificado')
                     ->dateTime('d/m/Y')
@@ -110,12 +111,6 @@ class UserResource extends Resource
                     ->label('Rol')
                     ->relationship('roles', 'name')
                     ->preload(),
-                Tables\Filters\TernaryFilter::make('has_speaker')
-                    ->label('Tiene perfil conferencista')
-                    ->queries(
-                        true: fn ($query) => $query->whereHas('speaker'),
-                        false: fn ($query) => $query->whereDoesntHave('speaker'),
-                    ),
                 Tables\Filters\TernaryFilter::make('email_verified')
                     ->label('Email verificado')
                     ->queries(
@@ -126,15 +121,6 @@ class UserResource extends Resource
             ->actions([
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
-                Actions\Action::make('hacer_admin')
-                    ->label('Hacer Admin')
-                    ->icon('heroicon-o-shield-check')
-                    ->color('warning')
-                    ->requiresConfirmation()
-                    ->modalHeading('Asignar rol de administrador')
-                    ->modalDescription('Esta accion asignara el rol de administrador a este usuario.')
-                    ->action(fn (User $record) => $record->assignRole('admin'))
-                    ->visible(fn (User $record): bool => !$record->hasRole('admin')),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
