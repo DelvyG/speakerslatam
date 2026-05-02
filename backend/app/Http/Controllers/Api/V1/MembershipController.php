@@ -68,15 +68,17 @@ class MembershipController extends Controller
             'payment_platform' => ['required', 'string', 'max:100'],
             'payment_reference' => ['required', 'string', 'max:255'],
             'payment_date' => ['required', 'date'],
-            'proof' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:5120'],
+            'proof' => ['required', 'image', 'mimes:jpeg,png,webp', 'max:10240'],
         ], [
             'plan_id.required' => 'Selecciona un plan.',
             'payment_platform.required' => 'Indica la plataforma de pago.',
             'payment_reference.required' => 'Indica la referencia del pago.',
             'payment_date.required' => 'Indica la fecha del pago.',
             'proof.required' => 'Sube el comprobante de pago.',
-            'proof.image' => 'El comprobante debe ser una imagen.',
-            'proof.max' => 'El comprobante no debe superar 5MB.',
+            'proof.image' => 'El comprobante debe ser una imagen (JPEG, PNG o WebP).',
+            'proof.mimes' => 'El comprobante debe ser una imagen JPEG, PNG o WebP.',
+            'proof.max' => 'El comprobante no debe superar 10MB.',
+            'proof.uploaded' => 'El archivo no se pudo subir. Verifica que sea una imagen y que no supere 10MB.',
         ]);
 
         $speaker = $request->user()->speaker;

@@ -299,11 +299,13 @@ export default function MembresiaPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full cursor-pointer h-10"
+              className="w-full cursor-pointer h-10 overflow-hidden"
               onClick={() => fileRef.current?.click()}
             >
-              <Upload className="size-4" />
-              {proofFile ? proofFile.name : "Subir comprobante"}
+              <Upload className="size-4 shrink-0" />
+              <span className="truncate">
+                {proofFile ? proofFile.name : "Subir comprobante"}
+              </span>
             </Button>
           </div>
         </div>
