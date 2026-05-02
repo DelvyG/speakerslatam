@@ -27,6 +27,7 @@ class Speaker extends Model implements HasMedia
         'bio_short',
         'bio_long',
         'city',
+        'state',
         'country',
         'phone',
         'linkedin_url',

@@ -21,6 +21,7 @@ class SpeakerDetailResource extends JsonResource
             'bio_short' => $this->bio_short,
             'bio_long' => $this->bio_long,
             'city' => $this->city,
+            'state' => $this->state,
             'country' => $this->country,
             'modality' => $this->modality?->value,
             'fee_range' => $this->fee_range,

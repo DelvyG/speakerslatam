@@ -56,6 +56,7 @@ const profileSchema = z.object({
   last_name: z.string().min(2, 'El apellido es obligatorio'),
   bio_short: z.string().min(10, 'La biografia debe tener al menos 10 caracteres').max(300),
   country: z.string().min(2, 'Selecciona un pais'),
+  state: z.string().optional(),
   city: z.string().min(2, 'Selecciona una ciudad'),
   modality: z.enum(['presencial', 'virtual', 'both']),
   category_ids: z.array(z.number()).min(1, 'Selecciona al menos una categoria'),
@@ -512,11 +513,14 @@ function Step2CompleteProfile({
     setGeoCities([]);
     setSelectedState('');
     setValue('city', '');
+    setValue('state', '');
   }
 
   async function loadCities(stateId: string) {
     if (!stateId) { setGeoCities([]); return; }
     setSelectedState(stateId);
+    const stateName = geoStates.find((s) => String(s.id) === stateId)?.name || '';
+    setValue('state', stateName);
     const res = await api.get<{ data: GeoCity[] }>('/geo/cities', { params: { state_id: stateId } });
     setGeoCities(res.data.data);
     setValue('city', '');

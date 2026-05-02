@@ -8,6 +8,7 @@ export interface Speaker {
   bio_short: string;
   bio_long?: string;
   city: string;
+  state?: string;
   country: string;
   phone?: string;
   linkedin_url?: string;

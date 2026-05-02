@@ -34,6 +34,7 @@ const profileSchema = z.object({
   bio_short: z.string().min(10, "La biografia corta debe tener al menos 10 caracteres").max(300),
   bio_long: z.string().optional(),
   city: z.string().min(2, "La ciudad es obligatoria"),
+  state: z.string().optional(),
   country: z.string().min(2, "El pais es obligatorio"),
   phone: z.string().optional(),
   linkedin_url: z.string().optional(),
@@ -122,6 +123,7 @@ export default function EditProfilePage() {
         setValue("bio_short", sp.bio_short || "");
         setValue("bio_long", sp.bio_long || "");
         setValue("city", sp.city || "");
+        setValue("state", sp.state || "");
         setValue("country", sp.country || "Venezuela");
         setValue("phone", sp.phone || "");
         setValue("linkedin_url", sp.linkedin_url || "");
@@ -134,12 +136,20 @@ export default function EditProfilePage() {
         setValue("topic_ids", sp.topics?.map((t) => t.id) || []);
         setValue("language_ids", sp.languages?.map((l) => l.id) || []);
 
-        // Load states for current country
+        // Load states for current country and pre-select saved state
         if (sp.country) {
           const stRes = await api.get<{ data: GeoState[] }>("/geo/states", { params: { country: sp.country } });
           setGeoStates(stRes.data.data);
-          // Find state that matches city to pre-select
-          // We store state name in selectedState for display
+
+          // Find saved state and load its cities
+          if (sp.state) {
+            const savedState = stRes.data.data.find((s) => s.name === sp.state);
+            if (savedState) {
+              setSelectedState(String(savedState.id));
+              const cityRes = await api.get<{ data: GeoCity[] }>("/geo/cities", { params: { state_id: savedState.id } });
+              setGeoCities(cityRes.data.data);
+            }
+          }
         }
       })
       .catch(() => {})
@@ -153,11 +163,14 @@ export default function EditProfilePage() {
     setGeoCities([]);
     setSelectedState("");
     setValue("city", "");
+    setValue("state", "");
   }
 
   async function loadCities(stateId: string) {
     if (!stateId) { setGeoCities([]); return; }
     setSelectedState(stateId);
+    const stateName = geoStates.find((s) => String(s.id) === stateId)?.name || "";
+    setValue("state", stateName);
     const res = await api.get<{ data: GeoCity[] }>("/geo/cities", { params: { state_id: stateId } });
     setGeoCities(res.data.data);
     setValue("city", "");

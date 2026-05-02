@@ -19,6 +19,7 @@ class UpdateSpeakerProfileRequest extends FormRequest
             'bio_short' => ['required', 'string', 'max:300'],
             'bio_long' => ['nullable', 'string', 'max:5000'],
             'city' => ['required', 'string', 'max:100'],
+            'state' => ['nullable', 'string', 'max:100'],
             'country' => ['required', 'string', 'max:100'],
             'phone' => ['nullable', 'string', 'max:20'],
             'linkedin_url' => ['nullable', 'url'],
