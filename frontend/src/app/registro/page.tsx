@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { register as registerUser, getCategories, getLanguages, updateSpeakerProfile } from '@/lib/queries';
+import { register as registerUser, getCategories, getLanguages, updateSpeakerProfile, getSpeakerProfile } from '@/lib/queries';
 import { setToken } from '@/lib/auth';
 import { useSiteSettings, getBackendUrl } from '@/lib/site-settings';
 import api from '@/lib/api';
@@ -50,6 +50,8 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 // ── Step 2 schema ────────────────────────────────────────────────────
 
 const profileSchema = z.object({
+  first_name: z.string().min(2, 'El nombre es obligatorio'),
+  last_name: z.string().min(2, 'El apellido es obligatorio'),
   bio_short: z.string().min(10, 'La biografia debe tener al menos 10 caracteres').max(300),
   country: z.string().min(2, 'Selecciona un pais'),
   city: z.string().min(2, 'Selecciona una ciudad'),
@@ -453,21 +455,29 @@ function Step2CompleteProfile({
 
   useEffect(() => {
     Promise.all([
+      getSpeakerProfile(),
       getCategories(),
       getLanguages(),
       api.get<{ data: string[] }>('/geo/countries').then((r) => r.data.data),
     ])
-      .then(async ([cats, langs, ctrs]) => {
+      .then(async ([sp, cats, langs, ctrs]) => {
         setCategories(cats);
         setLanguages(langs);
         setCountries(ctrs);
+        // Pre-fill name from speaker profile created in step 1
+        setValue('first_name', sp.first_name || '');
+        setValue('last_name', sp.last_name || '');
+        if (sp.country) {
+          setValue('country', sp.country);
+        }
         // Load states for default country
-        const stRes = await api.get<{ data: GeoState[] }>('/geo/states', { params: { country: 'Venezuela' } });
+        const country = sp.country || 'Venezuela';
+        const stRes = await api.get<{ data: GeoState[] }>('/geo/states', { params: { country } });
         setGeoStates(stRes.data.data);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [setValue]);
 
   async function loadStates(country: string) {
     if (!country) { setGeoStates([]); setGeoCities([]); return; }
@@ -525,6 +535,24 @@ function Step2CompleteProfile({
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+        {/* Name */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <label className="text-sm font-semibold">Nombre *</label>
+            <Input {...register('first_name')} className="h-10" />
+            {errors.first_name && (
+              <p className="text-xs text-destructive">{errors.first_name.message}</p>
+            )}
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-sm font-semibold">Apellido *</label>
+            <Input {...register('last_name')} className="h-10" />
+            {errors.last_name && (
+              <p className="text-xs text-destructive">{errors.last_name.message}</p>
+            )}
+          </div>
+        </div>
+
         {/* Bio */}
         <div className="space-y-1.5">
           <label className="text-sm font-semibold">Biografia corta * (max 300 caracteres)</label>
