@@ -30,7 +30,7 @@ class AddonResource extends Resource
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
-        return 'Productos';
+        return 'Contenido';
     }
 
     public static function form(Schema $schema): Schema

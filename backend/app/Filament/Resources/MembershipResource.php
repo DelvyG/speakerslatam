@@ -34,7 +34,7 @@ class MembershipResource extends Resource
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
-        return 'Membresias';
+        return 'Comercial';
     }
 
     public static function getNavigationBadge(): ?string

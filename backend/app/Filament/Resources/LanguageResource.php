@@ -28,7 +28,7 @@ class LanguageResource extends Resource
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
-        return 'Catalogo';
+        return 'Conferencistas';
     }
 
     public static function form(Schema $schema): Schema

@@ -188,44 +188,41 @@ class SpeakerResource extends Resource
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('photo')
-                    ->label('Foto')
+                    ->label('')
                     ->collection('photo')
                     ->circular()
-                    ->size(40),
+                    ->size(36),
                 Tables\Columns\TextColumn::make('first_name')
                     ->label('Nombre')
                     ->formatStateUsing(fn (Model $record) => $record->full_name)
+                    ->description(fn (Model $record) => $record->user?->email)
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.email')
-                    ->label('Email')
-                    ->searchable()
-                    ->icon('heroicon-m-envelope')
-                    ->toggleable(),
                 Tables\Columns\TextColumn::make('city')
-                    ->label('Ciudad')
+                    ->label('Ubicacion')
+                    ->formatStateUsing(fn (Model $record) => $record->city ? "{$record->city}, {$record->country}" : $record->country)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('country')
-                    ->label('Pais')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('experience_years')
-                    ->label('Experiencia')
-                    ->suffix(' anos')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('modality')
-                    ->label('Modalidad')
-                    ->badge(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Estado')
                     ->badge(),
-                Tables\Columns\ToggleColumn::make('is_featured')
-                    ->label('Destacado'),
-                Tables\Columns\ToggleColumn::make('is_verified')
-                    ->label('Verificado'),
                 Tables\Columns\TextColumn::make('activeMembership.status')
                     ->label('Membresia')
                     ->badge()
                     ->default('Sin membresia'),
+                Tables\Columns\ToggleColumn::make('is_verified')
+                    ->label('Verificado'),
+                Tables\Columns\ToggleColumn::make('is_featured')
+                    ->label('Destacado')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('modality')
+                    ->label('Modalidad')
+                    ->badge()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('experience_years')
+                    ->label('Experiencia')
+                    ->suffix(' anos')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')
                     ->dateTime('d/m/Y')

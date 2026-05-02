@@ -33,7 +33,7 @@ class UserResource extends Resource
 
     public static function getNavigationGroup(): string|\UnitEnum|null
     {
-        return 'Administracion';
+        return 'Configuracion';
     }
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
