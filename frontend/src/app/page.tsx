@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import NewsletterForm from "@/components/ui/NewsletterForm";
 import HomeHero from "@/components/HomeHero";
+import FeaturedSpeakers from "@/components/FeaturedSpeakers";
 
 const STATS = [
   { value: "500+", label: "Conferencistas", icon: Mic },
@@ -142,19 +143,7 @@ export default function HomePage() {
               Ver todos <ArrowRight className="size-4" />
             </Link>
           </div>
-          {/* Placeholder grid - will be populated from API */}
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="flex h-72 animate-pulse items-center justify-center rounded-xl bg-muted ring-1 ring-border"
-              >
-                <p className="text-xs text-muted-foreground">
-                  Speaker Card {i}
-                </p>
-              </div>
-            ))}
-          </div>
+          <FeaturedSpeakers />
           <div className="mt-6 text-center sm:hidden">
             <Link
               href="/directorio?featured=true"
