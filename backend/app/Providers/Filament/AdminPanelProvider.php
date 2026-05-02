@@ -43,6 +43,8 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make('Conferencistas')
                     ->icon('heroicon-o-microphone'),
+                NavigationGroup::make('Blog')
+                    ->icon('heroicon-o-newspaper'),
                 NavigationGroup::make('Comercial')
                     ->icon('heroicon-o-briefcase'),
                 NavigationGroup::make('Contenido')

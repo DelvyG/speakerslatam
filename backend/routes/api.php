@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\V1\MediaItemController;
 use App\Http\Controllers\Api\V1\SiteSettingController;
 use App\Http\Controllers\Api\V1\NewsletterController;
 use App\Http\Controllers\Api\V1\PublicAddonController;
+use App\Http\Controllers\Api\V1\PublicBlogController;
+use App\Http\Controllers\Api\V1\SpeakerBlogController;
 use App\Http\Controllers\Api\V1\PublicCategoryController;
 use App\Http\Controllers\Api\V1\PublicLanguageController;
 use App\Http\Controllers\Api\V1\PublicSpeakerController;
@@ -71,6 +73,13 @@ Route::prefix('v1')->group(function () {
     // Public - Newsletter
     Route::post('newsletter/subscribe', [NewsletterController::class, 'store']);
 
+    // Public - Blog
+    Route::get('blog/posts', [PublicBlogController::class, 'index']);
+    Route::get('blog/posts/featured', [PublicBlogController::class, 'featured']);
+    Route::get('blog/posts/{slug}', [PublicBlogController::class, 'show']);
+    Route::get('blog/categories', [PublicBlogController::class, 'categories']);
+    Route::get('blog/categories/{slug}', [PublicBlogController::class, 'categoryPosts']);
+
     // Analytics
     Route::post('analytics/track', [AnalyticsController::class, 'track'])->middleware('throttle:60,1');
     Route::post('analytics/heartbeat', [AnalyticsController::class, 'heartbeat'])->middleware('throttle:120,1');
@@ -98,6 +107,16 @@ Route::prefix('v1')->group(function () {
             Route::post('profile/gallery', [SpeakerProfileController::class, 'uploadGallery']);
             Route::get('membership', [SpeakerMembershipController::class, 'show']);
             Route::get('addons', [SpeakerMembershipController::class, 'addons']);
+
+            // Speaker blog
+            Route::get('blog/posts', [SpeakerBlogController::class, 'index']);
+            Route::post('blog/posts', [SpeakerBlogController::class, 'store']);
+            Route::get('blog/posts/{uuid}', [SpeakerBlogController::class, 'show']);
+            Route::put('blog/posts/{uuid}', [SpeakerBlogController::class, 'update']);
+            Route::delete('blog/posts/{uuid}', [SpeakerBlogController::class, 'destroy']);
+            Route::post('blog/posts/{uuid}/submit', [SpeakerBlogController::class, 'submitForReview']);
+            Route::post('blog/posts/{uuid}/images', [SpeakerBlogController::class, 'uploadImage']);
+            Route::post('blog/posts/{uuid}/featured-image', [SpeakerBlogController::class, 'uploadFeaturedImage']);
         });
     });
 });

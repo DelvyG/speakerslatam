@@ -109,6 +109,11 @@ class Speaker extends Model implements HasMedia
         return $this->hasOne(Membership::class)->where('status', 'active')->latest();
     }
 
+    public function blogPosts(): HasMany
+    {
+        return $this->hasMany(BlogPost::class);
+    }
+
     public function addonPurchases(): HasMany
     {
         return $this->hasMany(AddonPurchase::class);
