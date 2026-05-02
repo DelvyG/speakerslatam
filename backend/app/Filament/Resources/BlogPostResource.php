@@ -7,6 +7,7 @@ use App\Filament\Resources\BlogPostResource\Pages;
 use App\Models\BlogPost;
 use Filament\Forms;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Actions;
@@ -59,10 +60,10 @@ class BlogPostResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Grid::make(3)
+                Grid::make(3)
                     ->schema([
                         // Main content (2/3)
-                        Forms\Components\Grid::make(1)
+                        Grid::make(1)
                             ->schema([
                                 Section::make('Contenido')
                                     ->schema([
@@ -105,7 +106,7 @@ class BlogPostResource extends Resource
                             ->columnSpan(2),
 
                         // Sidebar (1/3)
-                        Forms\Components\Grid::make(1)
+                        Grid::make(1)
                             ->schema([
                                 Section::make('Publicacion')
                                     ->schema([
