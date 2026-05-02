@@ -14,7 +14,8 @@ class RegisterSpeakerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
@@ -23,7 +24,8 @@ class RegisterSpeakerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'El nombre es obligatorio.',
+            'first_name.required' => 'El nombre es obligatorio.',
+            'last_name.required' => 'El apellido es obligatorio.',
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'Debe ser un correo electrónico válido.',
             'email.unique' => 'Este correo ya está registrado.',

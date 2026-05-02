@@ -24,6 +24,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { register as registerUser, getCategories, getLanguages, updateSpeakerProfile, getSpeakerProfile } from '@/lib/queries';
 import { setToken } from '@/lib/auth';
+import { useAuth } from '@/lib/auth-context';
 import { useSiteSettings, getBackendUrl } from '@/lib/site-settings';
 import api from '@/lib/api';
 import type { Category, Language, Speaker } from '@/types';
@@ -32,7 +33,8 @@ import type { Category, Language, Speaker } from '@/types';
 
 const registerSchema = z
   .object({
-    name: z.string().min(1, 'El nombre es obligatorio').min(3, 'El nombre debe tener al menos 3 caracteres'),
+    first_name: z.string().min(1, 'El nombre es obligatorio').min(2, 'El nombre debe tener al menos 2 caracteres'),
+    last_name: z.string().min(1, 'El apellido es obligatorio').min(2, 'El apellido debe tener al menos 2 caracteres'),
     email: z.string().min(1, 'El correo es obligatorio').email('Ingresa un correo valido'),
     password: z
       .string()
@@ -101,6 +103,7 @@ const selectClassName =
 
 export default function RegistroPage() {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [serverError, setServerError] = useState('');
   const settings = useSiteSettings();
@@ -226,6 +229,7 @@ export default function RegistroPage() {
                 setCurrentStep(1);
               }}
               onError={setServerError}
+              onRegistered={refreshUser}
             />
           )}
 
@@ -251,9 +255,11 @@ export default function RegistroPage() {
 function Step1CreateAccount({
   onSuccess,
   onError,
+  onRegistered,
 }: {
   onSuccess: () => void;
   onError: (msg: string) => void;
+  onRegistered: () => Promise<void>;
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -271,6 +277,7 @@ function Step1CreateAccount({
     try {
       const { token } = await registerUser(values);
       setToken(token);
+      await onRegistered();
       onSuccess();
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response?.data?.errors) {
@@ -295,22 +302,41 @@ function Step1CreateAccount({
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
-        <div className="space-y-1.5">
-          <label htmlFor="name" className="block text-sm font-medium text-foreground">
-            Nombre Completo
-          </label>
-          <Input
-            id="name"
-            type="text"
-            placeholder="Juan Perez"
-            autoComplete="name"
-            aria-invalid={!!errors.name}
-            className="h-10"
-            {...register('name')}
-          />
-          {errors.name && (
-            <p className="text-xs text-destructive">{errors.name.message}</p>
-          )}
+        <div className="grid gap-4 grid-cols-2">
+          <div className="space-y-1.5">
+            <label htmlFor="first_name" className="block text-sm font-medium text-foreground">
+              Nombre
+            </label>
+            <Input
+              id="first_name"
+              type="text"
+              placeholder="Juan"
+              autoComplete="given-name"
+              aria-invalid={!!errors.first_name}
+              className="h-10"
+              {...register('first_name')}
+            />
+            {errors.first_name && (
+              <p className="text-xs text-destructive">{errors.first_name.message}</p>
+            )}
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="last_name" className="block text-sm font-medium text-foreground">
+              Apellido
+            </label>
+            <Input
+              id="last_name"
+              type="text"
+              placeholder="Perez"
+              autoComplete="family-name"
+              aria-invalid={!!errors.last_name}
+              className="h-10"
+              {...register('last_name')}
+            />
+            {errors.last_name && (
+              <p className="text-xs text-destructive">{errors.last_name.message}</p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-1.5">

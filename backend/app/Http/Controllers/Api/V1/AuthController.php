@@ -17,8 +17,11 @@ class AuthController extends Controller
 {
     public function register(RegisterSpeakerRequest $request): JsonResponse
     {
+        $firstName = $request->validated('first_name');
+        $lastName = $request->validated('last_name');
+
         $user = User::create([
-            'name' => $request->validated('name'),
+            'name' => "$firstName $lastName",
             'email' => $request->validated('email'),
             'password' => $request->validated('password'),
         ]);
@@ -26,11 +29,10 @@ class AuthController extends Controller
         $user->assignRole('speaker');
 
         // Auto-create speaker profile
-        $nameParts = explode(' ', $request->validated('name'), 2);
         Speaker::create([
             'user_id' => $user->id,
-            'first_name' => $nameParts[0],
-            'last_name' => $nameParts[1] ?? '',
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'bio_short' => '',
             'city' => '',
             'country' => 'Venezuela',
