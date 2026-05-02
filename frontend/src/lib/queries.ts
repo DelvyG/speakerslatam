@@ -14,6 +14,8 @@ import type {
   RegisterForm,
   AuthUser,
   PaginatedResponse,
+  BlogPost,
+  BlogCategory,
 } from '@/types';
 
 // ── Speaker filter params ────────────────────────────────────────────
@@ -173,4 +175,84 @@ export async function updateSpeakerProfile(
     profileData,
   );
   return data.data;
+}
+
+// ── Blog (public) ───────────────────────────────────────────────────
+
+export async function getBlogPosts(
+  params?: { page?: number; per_page?: number; category?: string; search?: string; featured?: boolean },
+): Promise<PaginatedResponse<BlogPost>> {
+  const { data } = await api.get<PaginatedResponse<BlogPost>>('/blog/posts', { params });
+  return data;
+}
+
+export async function getBlogPost(slug: string): Promise<BlogPost> {
+  const { data } = await api.get<{ data: BlogPost }>(`/blog/posts/${slug}`);
+  return data.data;
+}
+
+export async function getFeaturedBlogPosts(): Promise<BlogPost[]> {
+  const { data } = await api.get<{ data: BlogPost[] }>('/blog/posts/featured');
+  return data.data;
+}
+
+export async function getBlogCategories(): Promise<BlogCategory[]> {
+  const { data } = await api.get<{ data: BlogCategory[] }>('/blog/categories');
+  return data.data;
+}
+
+// ── Blog (speaker dashboard) ────────────────────────────────────────
+
+export async function getSpeakerBlogPosts(
+  params?: { page?: number; status?: string },
+): Promise<PaginatedResponse<BlogPost>> {
+  const { data } = await api.get<PaginatedResponse<BlogPost>>('/speaker/blog/posts', { params });
+  return data;
+}
+
+export async function getSpeakerBlogPost(uuid: string): Promise<BlogPost> {
+  const { data } = await api.get<{ data: BlogPost }>(`/speaker/blog/posts/${uuid}`);
+  return data.data;
+}
+
+export async function createBlogPost(
+  postData: { title: string; excerpt?: string; body?: string; category_ids?: number[] },
+): Promise<BlogPost> {
+  const { data } = await api.post<{ data: BlogPost }>('/speaker/blog/posts', postData);
+  return data.data;
+}
+
+export async function updateBlogPost(
+  uuid: string,
+  postData: Partial<{ title: string; excerpt: string; body: string; category_ids: number[] }>,
+): Promise<BlogPost> {
+  const { data } = await api.put<{ data: BlogPost }>(`/speaker/blog/posts/${uuid}`, postData);
+  return data.data;
+}
+
+export async function deleteBlogPost(uuid: string): Promise<void> {
+  await api.delete(`/speaker/blog/posts/${uuid}`);
+}
+
+export async function submitBlogPostForReview(uuid: string): Promise<{ message: string }> {
+  const { data } = await api.post<{ message: string }>(`/speaker/blog/posts/${uuid}/submit`);
+  return data;
+}
+
+export async function uploadBlogPostImage(uuid: string, file: File): Promise<{ url: string }> {
+  const formData = new FormData();
+  formData.append('image', file);
+  const { data } = await api.post<{ url: string }>(`/speaker/blog/posts/${uuid}/images`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return data;
+}
+
+export async function uploadBlogFeaturedImage(uuid: string, file: File): Promise<{ url: string; thumb_url: string }> {
+  const formData = new FormData();
+  formData.append('image', file);
+  const { data } = await api.post<{ url: string; thumb_url: string }>(`/speaker/blog/posts/${uuid}/featured-image`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return data;
 }

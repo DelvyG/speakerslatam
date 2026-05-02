@@ -161,3 +161,47 @@ export interface PublicStats {
   total_countries: number;
   total_topics: number;
 }
+
+// ── Blog ──────────────────────────────────────────────────────────────
+
+export interface BlogCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  parent?: { id: number; name: string; slug: string };
+  children?: { id: number; name: string; slug: string }[];
+  posts_count?: number;
+}
+
+export interface BlogPost {
+  id: number;
+  uuid: string;
+  slug: string;
+  title: string;
+  excerpt?: string;
+  body?: string;
+  status: 'draft' | 'pending_review' | 'scheduled' | 'published' | 'rejected';
+  status_label?: string;
+  rejection_reason?: string;
+  featured_image_url?: string;
+  featured_image_hero_url?: string;
+  og_image_url?: string;
+  meta_title?: string;
+  meta_description?: string;
+  og_title?: string;
+  og_description?: string;
+  author_name: string;
+  speaker?: {
+    name: string;
+    slug: string;
+    photo_url: string;
+  };
+  categories: BlogCategory[];
+  is_featured: boolean;
+  reading_time_minutes?: number;
+  views_count: number;
+  published_at?: string;
+  created_at: string;
+  updated_at?: string;
+}
