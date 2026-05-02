@@ -112,7 +112,7 @@ export async function subscribeNewsletter(
   formData: NewsletterForm,
 ): Promise<{ message: string }> {
   const { data } = await api.post<{ message: string }>(
-    '/newsletter',
+    '/newsletter/subscribe',
     formData,
   );
   return data;
