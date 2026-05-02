@@ -6,6 +6,7 @@ use App\Filament\Resources\ConciergeRequestResource\Pages;
 use App\Models\ConciergeRequest;
 use App\Models\Speaker;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Actions;
@@ -36,7 +37,7 @@ class ConciergeRequestResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Lead asociado')
+                Section::make('Lead asociado')
                     ->schema([
                         Forms\Components\Select::make('company_lead_id')
                             ->label('Lead de empresa')
@@ -46,7 +47,7 @@ class ConciergeRequestResource extends Resource
                             ->required(),
                     ]),
 
-                Forms\Components\Section::make('Conferencistas')
+                Section::make('Conferencistas')
                     ->schema([
                         Forms\Components\Select::make('proposed_speaker_ids')
                             ->label('Conferencistas propuestos')
@@ -61,7 +62,7 @@ class ConciergeRequestResource extends Resource
                             ->preload(),
                     ]),
 
-                Forms\Components\Section::make('Informacion financiera')
+                Section::make('Informacion financiera')
                     ->schema([
                         Forms\Components\TextInput::make('contract_value')
                             ->label('Valor del contrato')
@@ -79,7 +80,7 @@ class ConciergeRequestResource extends Resource
                             ->label('Fecha de cierre'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Notas')
+                Section::make('Notas')
                     ->schema([
                         Forms\Components\Textarea::make('admin_notes')
                             ->label('Notas del administrador')

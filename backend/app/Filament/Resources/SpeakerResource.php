@@ -11,6 +11,7 @@ use App\Models\Speaker;
 use App\Models\Topic;
 use Filament\Forms;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Actions;
 use Filament\Tables;
@@ -58,7 +59,7 @@ class SpeakerResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Informacion personal')
+                Section::make('Informacion personal')
                     ->schema([
                         Forms\Components\TextInput::make('first_name')
                             ->label('Nombre')
@@ -93,7 +94,7 @@ class SpeakerResource extends Resource
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Informacion profesional')
+                Section::make('Informacion profesional')
                     ->schema([
                         Forms\Components\Textarea::make('bio_short')
                             ->label('Bio corta')
@@ -119,7 +120,7 @@ class SpeakerResource extends Resource
                             ->minValue(0),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Medios')
+                Section::make('Medios')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('photo')
                             ->label('Foto de perfil')
@@ -140,7 +141,7 @@ class SpeakerResource extends Resource
                             ->columnSpanFull(),
                     ]),
 
-                Forms\Components\Section::make('Categorias, temas e idiomas')
+                Section::make('Categorias, temas e idiomas')
                     ->schema([
                         Forms\Components\Select::make('categories')
                             ->label('Categorias')
@@ -162,7 +163,7 @@ class SpeakerResource extends Resource
                             ->searchable(),
                     ])->columns(3),
 
-                Forms\Components\Section::make('Estado y visibilidad')
+                Section::make('Estado y visibilidad')
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->label('Usuario')
@@ -193,10 +194,11 @@ class SpeakerResource extends Resource
                     ->collection('photo')
                     ->circular()
                     ->size(40),
-                Tables\Columns\TextColumn::make('full_name')
+                Tables\Columns\TextColumn::make('first_name')
                     ->label('Nombre')
-                    ->searchable(['first_name', 'last_name'])
-                    ->sortable(['first_name']),
+                    ->formatStateUsing(fn (Model $record) => $record->full_name)
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('city')
                     ->label('Ciudad')
                     ->searchable(),

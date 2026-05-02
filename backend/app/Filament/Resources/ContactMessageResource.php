@@ -6,6 +6,7 @@ use App\Enums\ContactMessageStatus;
 use App\Filament\Resources\ContactMessageResource\Pages;
 use App\Models\ContactMessage;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Actions;
@@ -41,7 +42,7 @@ class ContactMessageResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Mensaje')
+                Section::make('Mensaje')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nombre')
@@ -64,7 +65,7 @@ class ContactMessageResource extends Resource
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Estado')
+                Section::make('Estado')
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->label('Estado')

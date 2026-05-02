@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LegalPageResource\Pages;
 use App\Models\LegalPage;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Actions;
@@ -35,7 +36,7 @@ class LegalPageResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Pagina')
+                Section::make('Pagina')
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->label('Titulo')

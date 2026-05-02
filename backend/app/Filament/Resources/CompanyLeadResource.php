@@ -7,6 +7,7 @@ use App\Enums\Modality;
 use App\Filament\Resources\CompanyLeadResource\Pages;
 use App\Models\CompanyLead;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Actions;
@@ -37,7 +38,7 @@ class CompanyLeadResource extends Resource
     {
         return $schema
             ->schema([
-                Forms\Components\Section::make('Empresa')
+                Section::make('Empresa')
                     ->schema([
                         Forms\Components\TextInput::make('company_name')
                             ->label('Nombre de la empresa')
@@ -64,7 +65,7 @@ class CompanyLeadResource extends Resource
                             ->maxLength(255),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Evento')
+                Section::make('Evento')
                     ->schema([
                         Forms\Components\TextInput::make('event_type')
                             ->label('Tipo de evento')
@@ -89,7 +90,7 @@ class CompanyLeadResource extends Resource
                             ->columnSpanFull(),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Estado')
+                Section::make('Estado')
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->label('Estado')
