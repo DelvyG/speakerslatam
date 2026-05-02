@@ -11,7 +11,9 @@ class CreateBlogPost extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['author_user_id'] = auth()->id();
+        if (empty($data['author_user_id'])) {
+            $data['author_user_id'] = auth()->id();
+        }
 
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();

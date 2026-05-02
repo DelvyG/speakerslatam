@@ -59,6 +59,7 @@ class BlogPostResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
+            ->columns(1)
             ->schema([
                 Section::make('Contenido')
                     ->schema([
@@ -71,21 +72,23 @@ class BlogPostResource extends Resource
                                 if (! $record) {
                                     $set('slug', Str::slug($state));
                                 }
-                            }),
+                            })
+                            ->columnSpanFull(),
                         Forms\Components\TextInput::make('slug')
                             ->label('URL amigable')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255)
-                            ->prefix('/blog/'),
+                            ->prefix('/blog/')
+                            ->columnSpanFull(),
                         Forms\Components\Textarea::make('excerpt')
                             ->label('Extracto')
                             ->helperText('Resumen corto para listados y SEO (max 500 caracteres)')
                             ->maxLength(500)
-                            ->rows(2)
+                            ->rows(4)
                             ->columnSpanFull(),
                         Forms\Components\RichEditor::make('body')
-                            ->label('Contenido')
+                            ->label('Contenido del articulo')
                             ->required()
                             ->columnSpanFull()
                             ->fileAttachmentsDisk('public')
@@ -97,7 +100,7 @@ class BlogPostResource extends Resource
                                 'attachFiles',
                                 'redo', 'undo',
                             ]),
-                    ])->columns(2),
+                    ]),
 
                 Section::make('Imagen y categorias')
                     ->schema([
@@ -107,54 +110,56 @@ class BlogPostResource extends Resource
                             ->image()
                             ->imageEditor()
                             ->imagePreviewHeight('200')
-                            ->responsiveImages(),
+                            ->responsiveImages()
+                            ->columnSpan(1),
                         Forms\Components\Select::make('categories')
                             ->label('Categorias')
                             ->relationship('categories', 'name')
                             ->multiple()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->columnSpan(1),
                     ])->columns(2),
 
                 Section::make('Publicacion')
                     ->schema([
                         Forms\Components\Select::make('status')
                             ->label('Estado')
-                            ->options(BlogPostStatus::class)
-                            ->default(BlogPostStatus::Draft)
+                            ->options([
+                                'draft' => 'Borrador',
+                                'published' => 'Publicar ahora',
+                                'scheduled' => 'Programar publicacion',
+                            ])
+                            ->default('draft')
                             ->required()
                             ->reactive(),
+                        Forms\Components\Select::make('author_user_id')
+                            ->label('Autor')
+                            ->relationship('author', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->default(fn () => auth()->id())
+                            ->required(),
                         Forms\Components\DateTimePicker::make('published_at')
                             ->label('Fecha de publicacion')
-                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                BlogPostStatus::Published->value,
-                                BlogPostStatus::Published,
-                                'published',
-                            ])),
+                            ->default(now())
+                            ->visible(fn (callable $get) => $get('status') === 'published'),
                         Forms\Components\DateTimePicker::make('scheduled_at')
                             ->label('Programar para')
-                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                BlogPostStatus::Scheduled->value,
-                                BlogPostStatus::Scheduled,
-                                'scheduled',
-                            ])),
-                        Forms\Components\Placeholder::make('author_info')
-                            ->label('Autor')
-                            ->content(fn (?BlogPost $record) => $record?->author?->name ?? 'Tu (admin)'),
+                            ->minDate(now())
+                            ->required()
+                            ->visible(fn (callable $get) => $get('status') === 'scheduled'),
                         Forms\Components\Textarea::make('rejection_reason')
                             ->label('Razon del rechazo')
                             ->rows(2)
-                            ->visible(fn (callable $get) => in_array($get('status'), [
-                                BlogPostStatus::Rejected->value,
-                                BlogPostStatus::Rejected,
-                                'rejected',
-                            ])),
+                            ->columnSpanFull()
+                            ->visible(fn (callable $get) => $get('status') === 'rejected'),
                         Forms\Components\Toggle::make('is_featured')
-                            ->label('Destacado'),
+                            ->label('Articulo destacado'),
                         Forms\Components\Toggle::make('allow_comments')
                             ->label('Permitir comentarios')
                             ->default(true),
-                    ])->columns(3),
+                    ])->columns(2),
 
                 Section::make('SEO (opcional)')
                     ->collapsed()

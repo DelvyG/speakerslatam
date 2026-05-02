@@ -85,6 +85,10 @@ class AdminPanelProvider extends PanelProvider
                             padding-top: 0.25rem !important;
                             padding-bottom: 0.25rem !important;
                         }
+                        /* Rich editor minimum height for blog posts */
+                        .trix-content {
+                            min-height: 400px !important;
+                        }
                     </style>
                 '),
             )
