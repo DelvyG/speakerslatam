@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { login } from '@/lib/queries';
 import { setToken } from '@/lib/auth';
+import { useAuth } from '@/lib/auth-context';
 import { useSiteSettings, getBackendUrl } from '@/lib/site-settings';
 
 const loginSchema = z.object({
@@ -24,6 +25,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
+  const { refreshUser } = useAuth();
   const [serverError, setServerError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const settings = useSiteSettings();
@@ -43,6 +45,7 @@ export default function LoginPage() {
     try {
       const { token } = await login(values);
       setToken(token);
+      await refreshUser();
       router.push('/dashboard');
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response?.data?.errors) {
